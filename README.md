@@ -1,5 +1,5 @@
 # timesheet
-This app using Codeigniter 4 framework, If you need any help on it, please see this: https://codeigniter4.github.io/userguide/
+This app uses  Codeigniter 4 framework, If you need any help on it, please see this: https://codeigniter4.github.io/userguide/
 
 Install dependcecy:
 ```
