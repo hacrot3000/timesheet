@@ -7,6 +7,7 @@ CWD = os.path.dirname(os.path.realpath(__file__))
 ROOT_DIR = os.path.dirname(CWD)
 sys.path.append(ROOT_DIR)
 
+#pip install -U pyzk
 from zk import ZK, const
 
 mydb = mysql.connector.connect(
