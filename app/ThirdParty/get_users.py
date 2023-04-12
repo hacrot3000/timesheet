@@ -27,7 +27,7 @@ sql = "INSERT IGNORE INTO users (id, username, fullname, is_admin, paid_leave_pe
 
 
 conn = None
-zk = ZK('192.168.1.14', port=4370)
+zk = ZK('<IP>', port=4370)
 try:
     conn = zk.connect()
     print ('Disabling device ...')
