@@ -1,0 +1,570 @@
+Disabling device ...
+--- Get User ---
+  Name       : TAP VU
+  User  ID   : 5
+  Insert   : vut
+  Name       : LE THANH NGHI
+  User  ID   : 6
+  Insert   : nghilt
+  Name       : NGUYEN XUAN VINH
+  User  ID   : 8
+  Insert   : vinhnx
+  Name       : NGUYEN TUAN AN
+  User  ID   : 9
+  Insert   : annt
+  Name       : PHAN THANH LUAN
+  User  ID   : 10
+  Insert   : luanpt
+  Name       : LAM VAN MANH
+  User  ID   : 11
+  Insert   : manhlv
+  Name       : NGUYEN MANH VU
+  User  ID   : 29
+  Insert   : vunm
+  Name       : 13
+  User  ID   : 13
+  Insert   : 13
+  Name       : DO MINH QUY
+  User  ID   : 15
+  Insert   : quydm
+  Name       : NGUYEN HIEU DANG KHOA
+  User  ID   : 16
+  Insert   : khoanhd
+  Name       : TON MINH QUANG
+  User  ID   : 18
+  Insert   : quangtm
+  Name       : TRAN KHAI DUNG
+  User  ID   : 20
+  Insert   : dungtk
+  Name       : VU TRAN TRI
+  User  ID   : 21
+  Insert   : trivt
+  Name       : SU THI QUYNH HOA
+  User  ID   : 23
+  Insert   : hoastq
+  Name       : NGUYEN HA PHUONG
+  User  ID   : 24
+  Insert   : phuongnh
+  Name       : LE THI KHANH HA
+  User  ID   : 25
+  Insert   : haltk
+  Name       : NGUYEN DUY BANG
+  User  ID   : 26
+  Insert   : bangnd
+  Name       : TRAN THI HOA
+  User  ID   : 27
+  Insert   : hoatt
+  Name       : DAO HOANG VI
+  User  ID   : 28
+  Insert   : vidh
+  Name       : NGUYEN THANH LOC
+  User  ID   : 30
+  Insert   : locnt
+  Name       : NGUYEN DUY THAI
+  User  ID   : 31
+  Insert   : thaind
+  Name       : NGUYEN MANH HOANG
+  User  ID   : 32
+  Insert   : hoangnm
+  Name       : LUU THI XUAN MAI
+  User  ID   : 33
+  Insert   : mailtx
+  Name       : HOANG VIET ANH
+  User  ID   : 35
+  Insert   : anhhv
+  Name       : LUONG CONG DAN
+  User  ID   : 37
+  Insert   : danlc
+  Name       : PHAN TRONG NHAN
+  User  ID   : 39
+  Insert   : nhanpt
+  Name       : NGUYEN HONG TU
+  User  ID   : 41
+  Insert   : tunh
+  Name       : LUU VAN DIEP
+  User  ID   : 42
+  Insert   : dieplv
+  Name       : HUYNH LONG HO
+  User  ID   : 43
+  Insert   : hohl
+  Name       : NGUYEN NGOC VU ANH
+  User  ID   : 44
+  Insert   : anhnnv
+  Name       : HOANG VIET HA
+  User  ID   : 14
+  Insert   : hahv
+  Name       : VU DINH THUY DUONG
+  User  ID   : 45
+  Insert   : duongvdt
+  Name       : LE HOANG SON
+  User  ID   : 22
+  Insert   : sonlh
+  Name       : VUONG HUY LONG
+  User  ID   : 49
+  Insert   : longvh
+  Name       : TRAN QUANG BAO
+  User  ID   : 53
+  Insert   : baotq
+  Name       : LA NGOC MINH TRUNG
+  User  ID   : 47
+  Insert   : trunglnm
+  Name       : TRAN HUE KHOI
+  User  ID   : 48
+  Insert   : khoith
+  Name       : LE XUAN TUNG
+  User  ID   : 62
+  Insert   : tunglx
+  Name       : TRAN THE VINH
+  User  ID   : 88
+  Insert   : vinhtt
+  Name       : NGUYEN VIET TIEN
+  User  ID   : 50
+  Insert   : tiennv
+  Name       : NGUYEN ANH TINH
+  User  ID   : 51
+  Insert   : tinhna
+  Name       : TRAN MINH HAU
+  User  ID   : 54
+  Insert   : hautm
+  Name       : TRAN HIEP THANH
+  User  ID   : 55
+  Insert   : thanhth
+  Name       : TANG THOAI VAN
+  User  ID   : 112
+  Insert   : vantt
+  Name       : LY MINH KHOI
+  User  ID   : 114
+  Insert   : khoilm
+  Name       : NGUYEN QUANG NINH
+  User  ID   : 56
+  Insert   : ninhnq
+  Name       : LU MY DINH
+  User  ID   : 57
+  Insert   : dinhlm
+  Name       : 58
+  User  ID   : 58
+  Insert   : 58
+  Name       : HOANG THI HAO
+  User  ID   : 59
+  Insert   : haoht
+  Name       : DO VAN TIEN
+  User  ID   : 7
+  Insert   : tiendv
+  Name       : HOANG THI THUY TRANG
+  User  ID   : 61
+  Insert   : tranghtt
+  Name       : 64
+  User  ID   : 64
+  Insert   : 64
+  Name       : TRAN HOANG PHUC
+  User  ID   : 12
+  Insert   : phucth
+  Name       : LE THI MY Y
+  User  ID   : 65
+  Insert   : yltm
+  Name       : BUI NGHI LUC
+  User  ID   : 70
+  Insert   : lucbn
+  Name       : LE DUY LINH
+  User  ID   : 72
+  Insert   : linhld
+  Name       : TRAN THI THU HOAI
+  User  ID   : 73
+  Insert   : hoaittt
+  Name       : 76
+  User  ID   : 76
+  Insert   : 76
+  Name       : HUYNH TRONG KHANH
+  User  ID   : 77
+  Insert   : khanhht
+  Name       : TU THI QUE LINH
+  User  ID   : 78
+  Insert   : linhttq
+  Name       : NGUYEN ANH VU
+  User  ID   : 74
+  Insert   : vuna
+  Name       : 79
+  User  ID   : 79
+  Insert   : 79
+  Name       : TRAN VAN LUONG
+  User  ID   : 80
+  Insert   : luongtv
+  Name       : TAP VU (BANG TUYET)
+  User  ID   : 81
+  Insert   : tuyet)tv(
+  Name       : HOANG NGOC DAN THANH
+  User  ID   : 84
+  Insert   : thanhhnd
+  Name       : NGUYEN THANH BINH
+  User  ID   : 85
+  Insert   : binhnt
+  Name       : NGUYEN UYEN TRANG
+  User  ID   : 86
+  Insert   : trangnu
+  Name       : LE MINH THOAI
+  User  ID   : 125
+  Insert   : thoailm
+  Name       : HO NHUT ANH
+  User  ID   : 87
+  Insert   : anhhn
+  Name       : NGUYEN NGOC VAN
+  User  ID   : 19
+  Insert   : vannn
+  Name       : HA THI TUYET NHUNG
+  User  ID   : 89
+  Insert   : nhunghtt
+  Name       : 90
+  User  ID   : 90
+  Insert   : 90
+  Name       : NGUYEN NGUYEN TRUC
+  User  ID   : 91
+  Insert   : trucnn
+  Name       : DOAN QUANG TUAN
+  User  ID   : 40
+  Insert   : tuandq
+  Name       : TAP VU(BANGTUYET)
+  User  ID   : 92
+  Insert   : vu(bangtuyet)t
+  Name       : NGUYEN LE TRUC GIAO
+  User  ID   : 93
+  Insert   : giaonlt
+  Name       : PHAM NHAT TINH
+  User  ID   : 46
+  Insert   : tinhpn
+  Name       : TRUONG VAN TOAN
+  User  ID   : 94
+  Insert   : toantv
+  Name       : NGUYEN VAN THAO
+  User  ID   : 95
+  Insert   : thaonv
+  Name       : NGUYEN NGOC DOAN TRANG
+  User  ID   : 96
+  Insert   : trangnnd
+  Name       : TRAN MINH TRUNG
+  User  ID   : 97
+  Insert   : trungtm
+  Name       : TRINH VAN HAI
+  User  ID   : 98
+  Insert   : haitv
+  Name       : HONG QUOC DINH
+  User  ID   : 60
+  Insert   : dinhhq
+  Name       : TRAN HIEP THUAN
+  User  ID   : 100
+  Insert   : thuanth
+  Name       : DOAN QUANG HUY
+  User  ID   : 66
+  Insert   : huydq
+  Name       : LUU MANH HUNG
+  User  ID   : 67
+  Insert   : hunglm
+  Name       : BUI TAM HIEU
+  User  ID   : 101
+  Insert   : hieubt
+  Name       : MA MINH LONG
+  User  ID   : 75
+  Insert   : longmm
+  Name       : PHAM QUOC HUNG
+  User  ID   : 102
+  Insert   : hungpq
+  Name       : TRAN HIEP THUAN
+  User  ID   : 103
+  Insert   : thuanth
+  Name       : BUI TAM HIEU
+  User  ID   : 104
+  Insert   : hieubt
+  Name       : PHAM QUOC HUNG
+  User  ID   : 105
+  Insert   : hungpq
+  Name       : TRAN HIEP THUAN
+  User  ID   : 106
+  Insert   : thuanth
+  Name       : DO BICH LY
+  User  ID   : 82
+  Insert   : lydb
+  Name       : NGUYEN HO KHOI DUY
+  User  ID   : 83
+  Insert   : duynhk
+  Name       : BUI TAM HIEU
+  User  ID   : 107
+  Insert   : hieubt
+  Name       : PHAM QUOC HUNG
+  User  ID   : 108
+  Insert   : hungpq
+  Name       : VI THI THU HONG
+  User  ID   : 110
+  Insert   : hongvtt
+  Name       : VO DUY KHOI
+  User  ID   : 127
+  Insert   : khoivd
+  Name       : LE THI THAO VI
+  User  ID   : 111
+  Insert   : viltt
+  Name       : HO THI LE
+  User  ID   : 34
+  Insert   : leht
+  Name       : PHAM HONG SON
+  User  ID   : 113
+  Insert   : sonph
+  Name       : NGUYEN LUONG THI
+  User  ID   : 115
+  Insert   : thinl
+  Name       : TRAN QUANG NAM
+  User  ID   : 116
+  Insert   : namtq
+  Name       : PHAM VU NHAT QUANG
+  User  ID   : 117
+  Insert   : quangpvn
+  Name       : NGUYEN THI MY PHUONG
+  User  ID   : 68
+  Insert   : phuongntm
+  Name       : NGUYEN THANH LONG
+  User  ID   : 69
+  Insert   : longnt
+  Name       : TA HY QUY
+  User  ID   : 118
+  Insert   : quyth
+  Name       : NGUYEN TUAN ANH
+  User  ID   : 119
+  Insert   : anhnt
+  Name       : NGUYEN THI THUY AN
+  User  ID   : 109
+  Insert   : anntt
+  Name       : TRUONG THI DIEM KIEU
+  User  ID   : 36
+  Insert   : kieuttd
+  Name       : BUI VAN DONG
+  User  ID   : 120
+  Insert   : dongbv
+  Name       : NGO NGUYEN TRI MANH
+  User  ID   : 71
+  Insert   : manhnnt
+  Name       : NGUYEN CHU HOANG QUAN
+  User  ID   : 121
+  Insert   : quannch
+  Name       : NGUYEN THI THUY DIEU
+  User  ID   : 122
+  Insert   : dieuntt
+  Name       : 123
+  User  ID   : 123
+  Insert   : 123
+  Name       : HO NHUT NGUYEN
+  User  ID   : 124
+  Insert   : nguyenhn
+  Name       : HO THIEN NGA
+  User  ID   : 52
+  Insert   : ngaht
+  Name       : 126
+  User  ID   : 126
+  Insert   : 126
+  Name       : PHAN LE NHAT TUAN
+  User  ID   : 128
+  Insert   : tuanpln
+  Name       : KHONG THANH PHONG
+  User  ID   : 129
+  Insert   : phongkt
+  Name       : 130
+  User  ID   : 130
+  Insert   : 130
+  Name       : DO MINH TRIET
+  User  ID   : 17
+  Insert   : trietdm
+  Name       : CO NGA
+  User  ID   : 131
+  Insert   : ngac
+  Name       : 132
+  User  ID   : 132
+  Insert   : 132
+  Name       : NGUYEN NGOC THOAI
+  User  ID   : 38
+  Insert   : thoainn
+  Name       : VO TAN PHAT
+  User  ID   : 133
+  Insert   : phatvt
+  Name       : TRAN THANH HAI
+  User  ID   : 63
+  Insert   : haitt
+  Name       : 136
+  User  ID   : 136
+  Insert   : 136
+  Name       : NGUYEN DUY VINH
+  User  ID   : 99
+  Insert   : vinhnd
+  Name       : NGUYEN HUU NHAT CHI
+  User  ID   : 137
+  Insert   : chinhn
+  Name       : NGUYEN NGOC LIEU
+  User  ID   : 139
+  Insert   : lieunn
+  Name       : NGUYEN DINH HAI
+  User  ID   : 140
+  Insert   : haind
+  Name       : LE THANH HA
+  User  ID   : 134
+  Insert   : halt
+  Name       : NGUYEN THI THANH HUYEN
+  User  ID   : 135
+  Insert   : huyenntt
+  Name       : 142
+  User  ID   : 142
+  Insert   : 142
+  Name       : VO THI CAM NHUNG
+  User  ID   : 138
+  Insert   : nhungvtc
+  Name       : NGUYEN HAI HA
+  User  ID   : 141
+  Insert   : hanh
+  Name       : ADMIN CUTE
+  User  ID   : 143
+  Insert   : cutea
+  Name       : 144
+  User  ID   : 144
+  Insert   : 144
+  Name       : NGUYEN THI THOM
+  User  ID   : 145
+  Insert   : thomnt
+  Name       : NGUYEN DUC TUAN
+  User  ID   : 146
+  Insert   : tuannd
+  Name       : TV - LE THI ROI
+  User  ID   : 147
+  Insert   : roit-lt
+  Name       : NGUYEN HOANG DU
+  User  ID   : 1
+  Insert   : dunh
+  Name       : 2
+  User  ID   : 2
+  Insert   : 2
+  Name       : NGUYEN THI NGOC TU
+  User  ID   : 3
+  Insert   : tuntn
+  Name       : NGUYEN THI KIM HUONG
+  User  ID   : 4
+  Insert   : huongntk
+  Name       : TRAN HOAI PHUONG
+  User  ID   : 148
+  Insert   : phuongth
+  Name       : NGUYEN NGOC LINH
+  User  ID   : 149
+  Insert   : linhnn
+  Name       : TRAN NGOC VU HUY
+  User  ID   : 150
+  Insert   : huytnv
+  Name       : NGUYEN HOANG MINH
+  User  ID   : 151
+  Insert   : minhnh
+  Name       : NGUYEN QUANG NINH
+  User  ID   : 152
+  Insert   : ninhnq
+  Name       : NGUYEN VAN PHUONG
+  User  ID   : 153
+  Insert   : phuongnv
+  Name       : NGUYEN DUC TUAN
+  User  ID   : 154
+  Insert   : tuannd
+  Name       : TRAN NGOC VU HUY
+  User  ID   : 155
+  Insert   : huytnv
+  Name       : NGUYEN HUYNH TRANG
+  User  ID   : 156
+  Insert   : trangnh
+  Name       : VU TRINH LAN HUONG
+  User  ID   : 157
+  Insert   : huongvtl
+  Name       : LE MINH DANG
+  User  ID   : 158
+  Insert   : danglm
+  Name       : 159
+  User  ID   : 159
+  Insert   : 159
+  Name       : TV - NGUYEN THI HUONG
+  User  ID   : 160
+  Insert   : huongt-nt
+  Name       : HUYNH DAC THANH VU
+  User  ID   : 161
+  Insert   : vuhdt
+  Name       : NGO NGUYEN GIAO XUAN
+  User  ID   : 162
+  Insert   : xuannng
+  Name       : BUI TAM HIEU
+  User  ID   : 163
+  Insert   : hieubt
+  Name       : DANG HO THANH THIEN
+  User  ID   : 164
+  Insert   : thiendht
+  Name       : NGUYEN TRUNG HIEU
+  User  ID   : 165
+  Insert   : hieunt
+  Name       : NGUYEN PHUC THINH
+  User  ID   : 166
+  Insert   : thinhnp
+  Name       : NGUYEN MINH TUAN
+  User  ID   : 167
+  Insert   : tuannm
+  Name       : NGUYEN NGUYEN TRUC
+  User  ID   : 168
+  Insert   : trucnn
+  Name       : LUU PHUC DIEP LOC
+  User  ID   : 169
+  Insert   : loclpd
+  Name       : NGUYEN NGOC DOAN TRANG
+  User  ID   : 170
+  Insert   : trangnnd
+  Name       : NGUYEN LAM THANH QUOC
+  User  ID   : 171
+  Insert   : quocnlt
+  Name       : LUU QUOC THINH
+  User  ID   : 172
+  Insert   : thinhlq
+  Name       : NGUYEN CAM VINH
+  User  ID   : 173
+  Insert   : vinhnc
+  Name       : TV-NGUYEN THI HONG
+  User  ID   : 174
+  Insert   : hongtt
+  Name       : LE THI HONG PHUC
+  User  ID   : 175
+  Insert   : phuclth
+  Name       : PHAM HAI DUY
+  User  ID   : 176
+  Insert   : duyph
+  Name       : PHAM ANH MINH
+  User  ID   : 177
+  Insert   : minhpa
+  Name       : NGUYEN NGOC TRUONG
+  User  ID   : 178
+  Insert   : truongnn
+  Name       : NGUYEN QUOC DAT
+  User  ID   : 179
+  Insert   : datnq
+  Name       : HUYNH PHUC LAM
+  User  ID   : 180
+  Insert   : lamhp
+  Name       : VU KIEU OANH
+  User  ID   : 181
+  Insert   : oanhvk
+  Name       : DO NGUYEN VU
+  User  ID   : 182
+  Insert   : vudn
+  Name       : TRUONG CHUONG DUONG
+  User  ID   : 183
+  Insert   : duongtc
+  Name       : NGUYEN QUANG ANH
+  User  ID   : 184
+  Insert   : anhnq
+  Name       : NGUYEN QUOC HIEU
+  User  ID   : 185
+  Insert   : hieunq
+  Name       : HUYNH XUAN TAM
+  User  ID   : 186
+  Insert   : tamhx
+  Name       : TRUONG NG. THANH NGUYEN
+  User  ID   : 187
+  Insert   : nguyentnt
+  Name       : LE NHAT DUY
+  User  ID   : 188
+  Insert   : duyln
+  Name       : DUONG NHAT KHOA
+  User  ID   : 189
+  Insert   : khoadn
+Enabling device ...

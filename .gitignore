@@ -1,0 +1,7 @@
+/writable/debugbar/*.json
+/writable/logs/*.log
+/writable/cache/*
+/writable/uploads/*
+/writable/session/ci_session*
+/vendor
+/.lh
