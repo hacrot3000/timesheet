@@ -1,0 +1,14 @@
+[Unit]
+Description=Checkin live capture data
+After=multi-user.target
+
+[Service]
+Restart=always
+RestartSec=5s
+
+Type=simple
+ExecStart=/usr/bin/python3 /opt/timesheet/app/ThirdParty/live_capture.py
+StandardInput=tty-force
+
+[Install]
+WantedBy=multi-user.target
