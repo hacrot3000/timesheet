@@ -17,6 +17,7 @@ app/ThirdParty/live_capture.sh
 
 Download checkin data:
 ```
+app/ThirdParty/get_users.py
 app/ThirdParty/get_checkin.py
 ```
 Screenshot:
