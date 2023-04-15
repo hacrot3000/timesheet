@@ -36,7 +36,9 @@
                     <th scope="col" class="text-center align-middle">Loại nghỉ phép</th>
                     <th scope="col" class="text-center align-middle">Phương án</th>
                     <th scope="col" class="text-center align-middle">Trạng thái</th>
+                    {is_admin_funs}
                     <th scope="col" class="text-center align-middle">Thao tác</th>
+                    {/is_admin_funs}
                 </tr>
             </thead>
             <tbody>
@@ -47,6 +49,7 @@
                     <td>{absent_type} <b>{note}</b></th>
                     <td>{leave_count_type}</th>
                     <td >{approve_status}</th>
+                    {is_admin_funs}
                     <td class="text-left">
                         <a type="button" class="btn btn-success {
                                isabsent
@@ -68,6 +71,7 @@
                                isaddleave
                            }" href="{site_url}request/updatestatus/{id}/2">Từ chối</a>
                     </td>
+                    {/is_admin_funs}
                 </tr>
                 {/listRequests}
         </table>

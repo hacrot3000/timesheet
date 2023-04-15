@@ -84,7 +84,7 @@ class AbsentRequestModel extends BaseModel
         return parent::findByUser_id($userId);
     }
 
-    public function findByMonth($startDateData, $endDateData, $showOnlyNotApproved, $showOnlyApproved = false)
+    public function findByMonth($startDateData, $endDateData, $showOnlyNotApproved, $showOnlyApproved = false, $team = '')
     {
         if (!empty($startDateData) && !empty($endDateData))
         {
@@ -98,6 +98,11 @@ class AbsentRequestModel extends BaseModel
             $this->orWhere("absent_type", self::ABSENT_TYPE_COME_LATE);
             $this->orWhere("absent_type", self::ABSENT_TYPE_LEAVE_EARLY);
             $this->groupEnd();
+        }
+        
+        if (!empty($team))
+        {
+            $this->where("users.team", $team);
         }
         
         if ($showOnlyApproved)

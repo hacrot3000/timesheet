@@ -123,6 +123,14 @@
                             <i class="fas fa-file-circle-plus fa-fw me-3"></i
                             ><span>Tạo yêu cầu</span>
                         </a>
+                        {is_lead_funs}
+                        <a id="menu-listrequest"
+                           href="{site_url}request/list"
+                           class="list-group-item list-group-item-action py-2 ripple"
+                           ><i class="fas fa-calendar fa-fw me-3"></i
+                            ><span>D.s. yêu cầu</span></a
+                        >
+                        {/is_lead_funs}
                         {is_admin_funs}
                         <a id="menu-listrequest"
                            href="{site_url}request/list"

@@ -59,6 +59,8 @@ class UsersModel extends BaseModel
 
             $session->userId  = $user['id'];
             $session->isAdmin = $user['is_admin'];
+            $session->isLeader = $user['is_team_lead'];
+            $session->team = $user['team'];
         }
 
         return $user;
@@ -117,14 +119,19 @@ class UsersModel extends BaseModel
         return $user;
     }
 
-    public function getAll()
+    public function getAll($team)
     {
         $where = [
                 //'role > ' => 0,
         ];
+        
+        if (!empty($team))
+        {
+            $where['team'] = $team;
+        }
 
         $all = $this->asArray()
-                ->select("id, username, fullname, team, paid_leave_per_year, paid_leave_left_this_year, paid_leave_left_last_year")
+                ->select("id, username, fullname, team, paid_leave_per_year, paid_leave_left_this_year, paid_leave_left_last_year, is_team_lead")
                 ->where($where)
                 ->orderBy('username')
                 ->findAll();

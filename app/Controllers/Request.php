@@ -238,14 +238,27 @@ class Request extends BaseController
             $userId = $this->session->userId;
         }
 
-        if (!$this->session->isAdmin)
-        {
-            $userId = $this->session->userId;
-        }
-
         //Calculate user info.
-
         $userInfo = $this->users->findFirstById($userId);
+
+        if ($this->session->userId != $userId)
+        {
+            if ($this->session->isAdmin)
+            {
+                //Do nothing, admin can view all
+            }
+            else if ($this->session->isLeader)
+            {
+                if ($this->session->team != $userInfo['team'])//Leader can view for his/her team only
+                {
+                    return redirect()->to("/request");
+                }
+            }
+            else
+            {
+                return redirect()->to("/request");
+            }
+        }
 
         if (empty($userInfo))
         {
@@ -485,7 +498,7 @@ class Request extends BaseController
 
     public function list($currentMonth = -1, $currentYear = -1)
     {
-        if (!$this->session->isAdmin)
+        if (!$this->session->isAdmin && !$this->session->isLeader)
         {
             throw \CodeIgniter\Exceptions\PageNotFoundException::forPageNotFound();
         }
@@ -507,7 +520,7 @@ class Request extends BaseController
 
         $this->genMonthDate($currentMonth, $currentYear, $currentYear);
 
-        $listRequests = $this->absentRequest->findByMonth($startDateData, $endDateData, $showOnlyNotApproved);
+        $listRequests = $this->absentRequest->findByMonth($startDateData, $endDateData, $showOnlyNotApproved, false, $this->session->isAdmin?'':$this->session->team);
 
         $listCountComeLate = array();
 

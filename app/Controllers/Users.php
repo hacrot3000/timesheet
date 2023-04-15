@@ -38,7 +38,7 @@ class Users extends BaseController
         #$this->assignAppend('site_title', ' - Danh sách nhân viên');
     }
 
-    public function Index()
+    public function Index($team = '')
     {
         $month       = date("n");
         $yearQuarter = ceil($month / 3);
@@ -51,8 +51,39 @@ class Users extends BaseController
         {
             $this->assign('is_first_quater', array());
         }
+        
+        if (empty($team))
+        {
+            $team = $this->session->team;
+        }
+        elseif($team == 'all')
+        {
+            $team = '';
+        }
 
-        $listUser = $this->users->getAll();
+        $teams    = $this->settings->team;
+        $teamList = array();
+
+        foreach ($teams as &$t)
+        {
+            $teamList[] = [
+                'teamName'     => $t,
+                'teamListSelected' => ($t == $team) ? 'selected' : ''
+            ];
+        }
+
+        $this->assign('teamList', $teamList);
+        
+
+        $listUser = $this->users->getAll($team);
+        
+        foreach ($listUser as &$u)
+        {
+            if ($u['is_team_lead'])
+            {
+                $u['team'] .= " (teamlead)";
+            }
+        }
 
         $this->assign("listUser", $listUser);
         return $this->render();
@@ -320,8 +351,9 @@ class Users extends BaseController
 
                 $mess = [
                     "Có thể việc checkin đã được ghi nhận bởi hệ thống trước khi bạn thực hiện.",
-                    "Có thể liên kết bạn dùng đã hết hạn, hãy thử lại lần nữa nếu vẫn chưa thấy lượt checkin.",
+                    "Có thể lỗi gây ra do không thể gửi email thông báo cho các bộ phận liên quan.",
                     "Hãy kiểm tra và chắc chắn bạn đã đăng nhập đúng tài khoản của mình.",
+                    "Hãy thử lại hoặc liên hệ team system nếu bạn muốn báo lỗi.",
                 ];
 
                 if (empty($auth) || $auth['step'] != 2 || $auth['valid_until'] < time())
@@ -333,6 +365,28 @@ class Users extends BaseController
                 {
                     return $this->showMessages("Lỗi thao tác", $mess);
                 }
+
+                $user            = $this->users->findFirstById($this->session->userId);
+                $leademail       = $this->users->leaderEmail($user['team']);
+                $requestTypeName = AbsentRequestModel::ABSENT_TYPE_NAME[AbsentRequestModel::ABSENT_TYPE_FORGOT_CHECKIN];
+
+                if (!empty($user['email']))
+                {
+                    $leademail .= ",{$user['email']}";
+                }
+
+                $this->assign($user);
+                $this->assign('requesttype', $requestTypeName);
+                $this->assign('requestDate', date('Y-m-d'));
+                $content = $this->render("modules/email_forgotcheckin_auto", false, false);
+
+                $sendResult = $this->settings->email("{$user['fullname']} đã gửi " . $requestTypeName, $content, $leademail);
+
+                if (!$sendResult)
+                {
+                    return $this->showMessages("Lỗi thao tác", $mess);
+                }
+
 
                 $data = array(
                     'user_id'          => $this->session->userId,
@@ -555,7 +609,6 @@ class Users extends BaseController
                 {
                     $reportSheet->setCellValue("E$userRow", $allCheckinbyUser[$userId]['totalLateRequest']);
                 }
-                
             }
 
 

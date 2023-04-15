@@ -1,8 +1,8 @@
 <p>Nhân viên <b>{fullname}</b> của phòng {team}</p>
-<p>Đã gửi đăng ký <b>{requesttype}</b>.</p>
-<p>Ngày xin phép: {requestDate}</p>
+<p>Đã checkin trên website và gửi yêu cầu <b>{requesttype}</b>.</p>
+<p>Vào ngày: {requestDate}</p>
 <p>&nbsp;</p>
-<p>Trưởng phòng vui lòng xác nhận với bộ nhận nhân sự để chấm phép cho nhân viên.</p>
+<p>Trưởng phòng vui lòng báo với bộ nhận nhân sự nếu thấy có vấn đề sai sót.</p>
 <p>&nbsp;</p>
 <p>Xem chi tiết tại đây: <a href="{site_url}request/index/{id}">{site_url}request/index/{id}</a></p>
 <hr />

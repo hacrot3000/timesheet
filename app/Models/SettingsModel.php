@@ -42,37 +42,12 @@ class SettingsModel extends BaseModel
     {
         parent::__construct($db, $validation);
 
-        $this->settings['start_month_date']                    = 26;
-        $this->settings['work_time_start']                     = "08:30";
-        $this->settings['work_time_finish']                    = "18:00";
-        $this->settings['latest_work_time_start']              = "09:30";
-        $this->settings['break_time_start']                    = 12;
-        $this->settings['break_time_finish']                   = 14;
-        $this->settings['consider_late_if_not_enough_8_hours'] = true;
-        $this->settings['auto_approve']                        = implode(',', [
-            AbsentRequestModel::ABSENT_TYPE_COME_LATE,
-            AbsentRequestModel::ABSENT_TYPE_FORGOT_CHECKIN,
-            AbsentRequestModel::ABSENT_TYPE_FORGOT_CHECKOUT,
-            AbsentRequestModel::ABSENT_TYPE_LEAVE_EARLY,
-            AbsentRequestModel::ABSENT_TYPE_WHOLE_DAY,
-            AbsentRequestModel::ABSENT_TYPE_WORK_AT_HOME,
-        ]);
-        $this->settings['office_ips']                          = '113.161.70.146,42.118.116.135';
-        //Email
-        $this->settings['email_protocol']                      = 'smtp';
-        $this->settings['email_SMTPHost']                      = 'mx.568e.vn';
-        $this->settings['email_SMTPUser']                      = 'duongtc@568e.vn';
-        $this->settings['email_SMTPPass']                      = '87,&,nglEviIA';
-        $this->settings['email_SMTPPort']                      = 465;
-        $this->settings['email_SMTPTimeout']                   = 30;
-        $this->settings['email_charset']                       = 'utf-8';
-        $this->settings['email_mailType']                      = 'html';
-        $this->settings['email_SMTPCrypto']                    = 'ssl';
-        //Email các team
-        $this->settings['email_HR']                            = 'hanh@568e.vn';
-        $this->settings['team']                                = 'Tech,Marketing,Design,GO,HR';
-        //$this->settings['teamlead_email']                      = 'huydq@568e.vn,tuandq@568e.vn,haitt@568e.vn,hahv@568e.vn,leht@568e.vn';
-        //$this->settings['teamlead_email']                      = 'duongtc@568e.vn,duongtc@568e.vn,duongtc@568e.vn,duongtc@568e.vn,duongtc@568e.vn';
+        $data = $this->findAll();
+
+        foreach ($data as $d)
+        {
+            $this->settings[$d['key']] = $d['value'];
+        }
     }
 
     public function email($subject, $content, $to)

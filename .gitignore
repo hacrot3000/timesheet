@@ -5,3 +5,4 @@
 /writable/session/ci_session*
 /vendor
 /.lh
+/app/ThirdParty/timesheet_capture.log

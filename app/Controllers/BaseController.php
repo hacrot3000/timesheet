@@ -90,6 +90,7 @@ abstract class BaseController extends Controller
         {
             
             $this->session->isAdmin = false;
+            $this->session->isLead = false;
             $this->session->userId  = 0;
 
             $this->assign('is_logged_user', array());
@@ -108,6 +109,15 @@ abstract class BaseController extends Controller
         else
         {
             $this->assign('is_admin_funs', array());
+        }
+
+        if ($this->session->isLeader)
+        {
+            $this->assign('is_lead_funs', array(array()));
+        }
+        else
+        {
+            $this->assign('is_lead_funs', array());
         }
     }
 

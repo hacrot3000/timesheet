@@ -76,6 +76,11 @@
         document.location = "{site_url}users/updateanualleave/" + type + "/" + $(object).data("id") + "/" + val;
     }
     {/is_admin_funs}
+        
+    function doFilterTeam()
+    {
+        document.location = "{site_url}users/index/" + $("#selTeam").val();
+    }
     
     $(function () {
         
@@ -89,8 +94,12 @@
             },
             "oLanguage": {
                "sSearch": "Tìm kiếm"
-             }            
+             },
+             //"dom": '<"toolbar">frtip',
         });
+        
+        //$('div.toolbar').html('<b>Custom tool bar! Text/images etc.</b>');
+        $("#userList_filter").append(" <label for='selTeam'>Phòng</label> <select id='selTeam' onchange='doFilterTeam()'><option value='all'>Tất cả</option>{teamList}<option {teamListSelected}>{teamName}</option>{/teamList}</select>");
 
         $("#menu-userlist").addClass('active');
         
