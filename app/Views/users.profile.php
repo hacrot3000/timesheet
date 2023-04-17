@@ -5,36 +5,65 @@
     <div class="card-body">
         <form method="post" id="frmCreateRequest" action="{site_url}users/profileupdate">
             <div class="mb-3">
-                <label for="username" name="username" class="form-label">Họ và tên</label>
-                <input class="form-control" type="text" name="fullname" value="{fullname}" required/>
+                <div class="row">
+                    <div class="col-sm-3">
+                        <label for="username" name="username" class="form-label">Họ và tên</label>
+                    </div>
+                    <div class="col-sm-8">
+                        <input class="form-control" type="text" name="fullname" value="{fullname}" required/>
+                    </div>
+                </div>
             </div>
             <div class="mb-3">
-                <label for="username" name="username" class="form-label">Team</label>
-                <select class="form-control" name="team" required>
-                    {teams}
-                    <option {selected}>{name}</option>
-                    {/teams}
-                </select>
+                <div class="row">
+                    <div class="col-sm-3">
+                        <label for="username" name="username" class="form-label">Team</label>
+                    </div>
+                    <div class="col-sm-8">
+                        <select class="form-control" name="team" required>
+                            {teams}
+                            <option {selected}>{name}</option>
+                            {/teams}
+                        </select>
+                    </div>
+                </div>
             </div>
             <div class="mb-3">
-                <label for="username" name="username" class="form-label">Email</label>
-                <input class="form-control" type="email" name="email" value="{email}" required/>
+                <div class="row">
+                    <div class="col-sm-3">
+                        <label for="username" name="username" class="form-label">Email</label>
+                    </div>
+                    <div class="col-sm-8">
+                        <input class="form-control" type="email" name="email" value="{email}" required/>
+                    </div>
+                </div>
             </div>
             <div class="mb-3">
-                <label for="username" name="username" class="form-label">Mật khẩu (Để trống nếu không muốn thay đổi)</label>
-                <input class="form-control" type="password" 
-                       name="password" id="password" value="" 
-                       pattern="^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)[A-Za-z\d]{8,}$"
-                       title="Mật khẩu phải từ 8 ký tự, bao gồm đầy đủ chữ hoa, chữ thường và chữ số. Không dùng ký tự đặc biệt hoặc chữ có dấu"
-                       />
-            </div>
-            <div class="mb-3">
-                <label for="username" name="username" class="form-label">Xác nhận mật khẩu</label>
-                <input class="form-control" type="password" id="confirm_password" value=""/>
-            </div>
-            <div class="col-md-12 text-center">
-                <button type="submit" class="btn btn-primary align-middle">Cập nhật</button>
-            </div>
+                <div class="row">
+                    <div class="col-sm-3">
+                        <label for="username" name="username" class="form-label">Mật khẩu (Để trống nếu không muốn thay đổi)</label>
+                    </div>
+                    <div class="col-sm-8">
+                        <input class="form-control" type="password" 
+                               name="password" id="password" value="" 
+                               pattern="^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)[A-Za-z\d]{8,}$"
+                               title="Mật khẩu phải từ 8 ký tự, bao gồm đầy đủ chữ hoa, chữ thường và chữ số. Không dùng ký tự đặc biệt hoặc chữ có dấu"
+                               />
+                    </div>
+                </div>
+                <div class="mb-3">
+                    <div class="row">
+                        <div class="col-sm-3">
+                            <label for="username" name="username" class="form-label">Xác nhận mật khẩu</label>
+                        </div>
+                        <div class="col-sm-8">
+                            <input class="form-control" type="password" id="confirm_password" value=""/>
+                        </div>
+                    </div>
+                    <div class="col-md-12 text-center">
+                        <button type="submit" class="btn btn-primary align-middle">Cập nhật</button>
+                    </div>
+                </div>
         </form>
     </div>
 </div>
@@ -46,9 +75,11 @@
 
     function validatePassword() {
         var check = password.value != confirm_password.value;
-        if (check) {
+        if (check)
+        {
             confirm_password.setCustomValidity("Xác nhận mật khẩu không khớp");
-        } else {
+        } else
+        {
             confirm_password.setCustomValidity('');
         }
     }

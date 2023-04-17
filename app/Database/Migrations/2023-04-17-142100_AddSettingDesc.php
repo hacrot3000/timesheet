@@ -14,10 +14,10 @@ class Init extends Migration
                 'type'       => 'VARCHAR',
                 'constraint' => 55,
             ],
-            'descExt'      => [
+            'descext'      => [
                 'type'       => 'TEXT',
             ],
-            'canChange' => [
+            'canchange' => [
                 'type'    => 'INT',
                 'default' => 1,
             ],

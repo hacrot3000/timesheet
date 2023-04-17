@@ -150,6 +150,12 @@
                            ><i class="fas fa-file-arrow-down fa-fw me-3"></i
                             ><span>Tải dữ liệu</span></a
                         >
+                        <a id="menu-settings"
+                           href="{site_url}settings"
+                           class="list-group-item list-group-item-action py-2 ripple"
+                           ><i class="fas fa-screwdriver-wrench fa-fw me-3"></i
+                            ><span>Thiết lập hệ thống</span></a
+                        >
                         {/is_admin_funs}
                         <a id="menu-profile"
                            href="{site_url}users/profile"

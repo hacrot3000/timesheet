@@ -27,7 +27,7 @@ class SettingsModel extends BaseModel
     protected $useAutoIncrement = false;
     // protected $returnType         = 'array';
     protected $useSoftDeletes   = false;
-    protected $allowedFields    = ['key', 'value'];
+    protected $allowedFields    = ['value'];
     // protected $useTimestamps      = true;
     protected $createdField     = '';
     protected $updatedField     = '';
