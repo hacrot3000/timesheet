@@ -215,6 +215,10 @@ class Init extends Migration
 
     public function down()
     {
-        $this->forge->dropTable('absent_requests');
+//        $this->forge->dropTable('users');
+//        $this->forge->dropTable('settings');
+//        $this->forge->dropTable('holidays');
+//        $this->forge->dropTable('checkin');
+//        $this->forge->dropTable('absent_requests');
     }
 }
