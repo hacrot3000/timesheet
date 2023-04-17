@@ -113,7 +113,7 @@ class AbsentRequestModel extends BaseModel
         $this->select("absent_requests.id, user_id, fullname, DATE_FORMAT(`request_date`, '%d-%m-%Y') `request_date`, absent_type, approve_status, leave_count_type", false);
 
         $this->join('users', 'absent_requests.user_id = users.id');
-        $this->orderBy('fullname, request_date');
+        $this->orderBy('username, absent_requests.request_date');
         return parent::findAll();
     }
 
