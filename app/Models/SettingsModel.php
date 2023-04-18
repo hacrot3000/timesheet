@@ -20,7 +20,7 @@ class SettingsModel extends BaseModel
     public const DATE_STYLE_WEEKEND         = 'table-dark';
     public const DATE_STYLE_ABSENT          = 'table-danger';
     public const DATE_STYLE_COME_LATE       = 'table-warning';
-    public const DATE_STYLE_NOT_ENOUGH_TIME = 'table-warning ';
+    public const DATE_STYLE_NOT_ENOUGH_TIME = 'table-warning not-enough';
 
     protected $table            = 'settings';
     protected $primaryKey       = 'key';

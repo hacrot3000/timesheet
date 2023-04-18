@@ -367,11 +367,12 @@ class Request extends BaseController
                 else
                 {
 
-                    if ($check['workHours'] < 8 && $this->settings->consider_late_if_not_enough_8_hours)
-                    {
-                        $check['class'] = \App\Models\SettingsModel::DATE_STYLE_NOT_ENOUGH_TIME;
-                    }
-                    elseif ($check['class'] == \App\Models\SettingsModel::DATE_STYLE_ABSENT)
+//                    if ($check['workHours'] < 8 && $this->settings->consider_late_if_not_enough_8_hours)
+//                    {
+//                        $check['class'] = \App\Models\SettingsModel::DATE_STYLE_NOT_ENOUGH_TIME;
+//                    }
+//                    else
+                    if ($check['class'] == \App\Models\SettingsModel::DATE_STYLE_ABSENT)
                     {
                         $check['class'] = \App\Models\SettingsModel::DATE_STYLE_NORMAL;
                     }
@@ -411,19 +412,22 @@ class Request extends BaseController
                 }
                 else
                 {
-                    $class = $allCheckin[$request['request_date']]['class'];
+                    $class               = $allCheckin[$request['request_date']]['class'];
+                    $checkpoint          = $allCheckin[$request['request_date']]['checkPoint'];
+                    $lastCheckpointIndex = count($checkpoint) - 1;
 
                     switch ($request['absent_type'])
                     {
                         case AbsentRequestModel::ABSENT_TYPE_FORGOT_CHECKIN:
-                            if (!empty($allCheckin[$request['request_date']]['checkPoint'][0]['time']) && empty($allCheckin[$request['request_date']]['checkPoint'][1]['time']))
+
+                            if (!empty($checkpoint[0]['time']) && empty($checkpoint[1]['time']))
                             {
                                 $allCheckin[$request['request_date']]['checkPoint'][1]['time'] = $allCheckin[$request['request_date']]['checkPoint'][0]['time'];
                             }
                             $class                                                         = \App\Models\SettingsModel::DATE_STYLE_COME_LATE;
                             $allCheckin[$request['request_date']]['checkPoint'][0]['time'] = $this->settings->work_time_start;
                             $turnOnStatus                                                  = 'approved_request';
-                            if ($allCheckin[$request['request_date']]['checkPoint'][1]['time'] >= $this->settings->work_time_finish)
+                            if ($checkpoint[$lastCheckpointIndex]['time'] >= $this->settings->work_time_finish)
                             {
                                 $class = \App\Models\SettingsModel::DATE_STYLE_NORMAL;
                             }
@@ -432,7 +436,7 @@ class Request extends BaseController
                             $class                                                         = \App\Models\SettingsModel::DATE_STYLE_COME_LATE;
                             $allCheckin[$request['request_date']]['checkPoint'][1]['time'] = $this->settings->work_time_finish;
                             $turnOnStatus                                                  = 'approved_request';
-                            if (!empty($allCheckin[$request['request_date']]['checkPoint'][0]['time']) && $allCheckin[$request['request_date']]['checkPoint'][0]['time'] <= $this->settings->work_time_start)
+                            if (!empty($checkpoint[0]['time']) && $checkpoint[0]['time'] <= $this->settings->work_time_start)
                             {
                                 $class = \App\Models\SettingsModel::DATE_STYLE_NORMAL;
                             }
@@ -441,8 +445,8 @@ class Request extends BaseController
                             $class        = \App\Models\SettingsModel::DATE_STYLE_NORMAL;
                             $turnOnStatus = 'approved_request';
                             break;
-                        case AbsentRequestModel::ABSENT_TYPE_WHOLE_DAY:
                         case AbsentRequestModel::ABSENT_TYPE_COME_LATE:
+                        case AbsentRequestModel::ABSENT_TYPE_WHOLE_DAY:
                         case AbsentRequestModel::ABSENT_TYPE_LEAVE_EARLY:
                             switch ($request['leave_count_type'])
                             {
@@ -464,6 +468,7 @@ class Request extends BaseController
                                     $turnOnStatus = 'anualyadd_request';
                                     break;
                             }
+                            break;
                     }
 
                     if ($allCheckin[$request['request_date']]['class'] != \App\Models\SettingsModel::DATE_STYLE_WEEKEND) // Only change class for work days
@@ -476,6 +481,11 @@ class Request extends BaseController
 
         foreach ($allCheckin as &$check)
         {
+            if ($check['workHours'] > 0 && $check['workHours'] < 8 && $this->settings->consider_late_if_not_enough_8_hours && $check['class'] == \App\Models\SettingsModel::DATE_STYLE_NORMAL)
+            {
+                $check['class'] = \App\Models\SettingsModel::DATE_STYLE_NOT_ENOUGH_TIME;
+            }
+
             if ($check['class'] == \App\Models\SettingsModel::DATE_STYLE_ABSENT)
                 $totalDayAbsent++;
             if ($check['class'] == \App\Models\SettingsModel::DATE_STYLE_COME_LATE)
@@ -520,7 +530,7 @@ class Request extends BaseController
 
         $this->genMonthDate($currentMonth, $currentYear, $currentYear);
 
-        $listRequests = $this->absentRequest->findByMonth($startDateData, $endDateData, $showOnlyNotApproved, false, $this->session->isAdmin?'':$this->session->team);
+        $listRequests = $this->absentRequest->findByMonth($startDateData, $endDateData, $showOnlyNotApproved, false, $this->session->isAdmin ? '' : $this->session->team);
 
         $listCountComeLate = array();
 
