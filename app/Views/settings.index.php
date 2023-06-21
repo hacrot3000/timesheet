@@ -27,6 +27,7 @@
             {/settings}
             <div class="col-md-12 text-center">
                 <button type="submit" class="btn btn-primary align-middle">Cập nhật</button>
+                <button type="button" id="cmdTestEmail" class="btn btn-primary align-middle">Kiểm tra SMTP</button>
             </div>
         </form>
     </div>
@@ -35,5 +36,14 @@
 <script>
     $(function () {
         $("#menu-settings").addClass('active');
+
+        $("#cmdTestEmail").click(function () {
+            let person = prompt("Nhập email người nhận", "duongtc@568e.vn");
+
+            if (person != null)
+            {
+                document.location = "{site_url}settings/testmail/" + person;
+            }
+        });
     });
 </script>

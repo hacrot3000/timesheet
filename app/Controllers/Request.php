@@ -195,7 +195,18 @@ class Request extends BaseController
 
         if (!empty($finishDateRaw))
         {
-            $date = "từ ngày $startDate đến ngày $finishDateRaw";
+            if (
+                    $requestType == AbsentRequestModel::ABSENT_TYPE_WHOLE_DAY ||
+                    $requestType == AbsentRequestModel::ABSENT_TYPE_ADD_PAID_LEAVE ||
+                    $requestType == AbsentRequestModel::ABSENT_TYPE_WORK_AT_HOME
+                    )
+            {
+                $date = "từ ngày $startDate đến hết ngày $finishDateRaw";
+            }
+            else
+            {
+                $date = "từ ngày $startDate đến ngày $finishDateRaw";
+            }
         }
         else
         {

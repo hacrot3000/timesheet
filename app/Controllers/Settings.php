@@ -71,4 +71,20 @@ class Settings extends BaseController
         return $this->showMessages("Thông báo", "Dữ liệu đã đượcc cập nhật thành công.", "/settings");
     }
 
+    public function testmail($receiver)
+    {
+        $content = $this->render("modules/email_test", false, false);
+
+        $sendResult = $this->settings->email("Email thử nghiệm", $content, $receiver, false);
+
+        if (!$sendResult)
+        {
+            return $this->showMessages("Thông báo", 'Lỗi khi gửi email, vui lòng thử lại sau hoặc liên hệ team system để báo lỗi.');
+        }        
+        else
+        {
+            return $this->showMessages("Thông báo", "Email đã được gửi thành công. Vui lòng kiểm tra hòm thư để nhận email.", "/settings");            
+        }
+        
+    }
 }

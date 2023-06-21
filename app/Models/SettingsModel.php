@@ -50,7 +50,7 @@ class SettingsModel extends BaseModel
         }
     }
 
-    public function email($subject, $content, $to)
+    public function email($subject, $content, $to, $toHR = true)
     {
         $config = [
             'protocol'    => $this->email_protocol,
@@ -70,7 +70,10 @@ class SettingsModel extends BaseModel
 
         $email->setFrom($this->email_SMTPUser, 'Timesheet');
         $email->setTo($to);
-        $email->setCC($this->email_HR);
+        if ($toHR)
+        {
+            $email->setCC($this->email_HR);
+        }
 
         $email->setSubject($subject);
         $email->setMessage($content);
