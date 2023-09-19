@@ -145,7 +145,7 @@ class Init extends Migration
                 'null' => false,
             ],
             'user_id' => [
-                'type'           => 'TIME',
+                'type'           => 'INT',
                 'constraint'     => 5,
                 'unsigned'       => true,
                 'auto_increment' => false,
