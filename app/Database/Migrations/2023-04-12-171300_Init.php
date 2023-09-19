@@ -156,12 +156,12 @@ class Init extends Migration
         
         $this->forge->addField([
             'month' => [
-                'type'           => 'TIME',
+                'type'           => 'INT',
                 'constraint'     => 5,
                 'unsigned'       => true,
             ],
             'day' => [
-                'type'           => 'TIME',
+                'type'           => 'INT',
                 'constraint'     => 5,
                 'unsigned'       => true,
             ],
@@ -215,10 +215,10 @@ class Init extends Migration
 
     public function down()
     {
-//        $this->forge->dropTable('users');
-//        $this->forge->dropTable('settings');
-//        $this->forge->dropTable('holidays');
-//        $this->forge->dropTable('checkin');
-//        $this->forge->dropTable('absent_requests');
+        $this->forge->dropTable('users');
+        $this->forge->dropTable('settings');
+        $this->forge->dropTable('holidays');
+        $this->forge->dropTable('checkin');
+        $this->forge->dropTable('absent_requests');
     }
 }
