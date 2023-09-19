@@ -24,6 +24,10 @@ class Init extends Migration
                 'type'           => 'VARCHAR',
                 'constraint'     => 45,
             ],
+            'fullname' => [
+                'type'           => 'VARCHAR',
+                'constraint'     => 45,
+            ],                               
             'request_date' => [
                 'type' => 'DATE',
                 'null' => false,
