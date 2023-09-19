@@ -20,14 +20,6 @@ class Init extends Migration
                 'constraint'     => 5,
                 'unsigned'       => true,
             ],
-            'username' => [
-                'type'           => 'VARCHAR',
-                'constraint'     => 45,
-            ],
-            'fullname' => [
-                'type'           => 'VARCHAR',
-                'constraint'     => 45,
-            ],                               
             'request_date' => [
                 'type' => 'DATE',
                 'null' => false,
@@ -67,7 +59,7 @@ class Init extends Migration
         $this->forge->addKey(['user_id', 'deleted_at'], false, false, 'search_user');
         $this->forge->addKey(['request_date', 'deleted_at'], false, false, 'search_date');
         $this->forge->addUniqueKey(['user_id', 'request_date', 'absent_type'], 'unique');
-        $this->forge->createTable('users');
+        $this->forge->createTable('absent_requests');
         
         
         $this->forge->addField([
@@ -140,7 +132,7 @@ class Init extends Migration
         ]);
         $this->forge->addKey(['id'], true);    
         $this->forge->addUniqueKey(['username'], 'username');
-        $this->forge->createTable('absent_requests');
+        $this->forge->createTable('users');
         
         
         $this->forge->addField([
