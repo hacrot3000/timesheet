@@ -4,7 +4,7 @@ namespace App\Database\Migrations;
 
 use CodeIgniter\Database\Migration;
 
-class Init extends Migration
+class AddSettingData extends Migration
 {
 
     public function up()
