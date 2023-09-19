@@ -20,6 +20,10 @@ class Init extends Migration
                 'constraint'     => 5,
                 'unsigned'       => true,
             ],
+            'username' => [
+                'type'           => 'VARCHAR',
+                'constraint'     => 45,
+            ],
             'request_date' => [
                 'type' => 'DATE',
                 'null' => false,
