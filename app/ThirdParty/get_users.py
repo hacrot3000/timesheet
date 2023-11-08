@@ -3,6 +3,7 @@ import os
 import sys
 import mysql.connector
 from datetime import datetime
+import config
 
 CWD = os.path.dirname(os.path.realpath(__file__))
 ROOT_DIR = os.path.dirname(CWD)
@@ -12,10 +13,10 @@ sys.path.append(ROOT_DIR)
 from zk import ZK, const
 
 mydb = mysql.connector.connect(
-  host="10.9.1.9",
-  user="duongtc",
-  password="y9nhzJQR3*",
-  database="timesheet"
+  host=config.host,
+  user=config.user,
+  password=config.password,
+  database=config.database
 )
 mycursor = mydb.cursor()
 
@@ -27,7 +28,7 @@ sql = "INSERT IGNORE INTO users (id, username, fullname, is_admin, paid_leave_pe
 
 
 conn = None
-zk = ZK('<IP>', port=4370)
+zk = ZK(config.ip, port=config.port)
 try:
     conn = zk.connect()
     print ('Disabling device ...')
@@ -62,10 +63,10 @@ try:
         mycursor.execute(sql, val)
 
 
-    #print ('--- Get Attendances ---')
-    #attendances = conn.get_attendance()
-    #for attendance in attendances:
-    #    print(attendance)
+    print ('--- Get Attendances ---')
+    attendances = conn.get_attendance()
+    for attendance in attendances:
+        print(attendance)
 
     print ('Enabling device ...')
     conn.enable_device()
