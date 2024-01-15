@@ -141,7 +141,7 @@ class Init extends Migration
                 'null' => false,
             ],
             'time' => [
-                'type' => 'DATE',
+                'type' => 'TIME',
                 'null' => false,
             ],
             'user_id' => [

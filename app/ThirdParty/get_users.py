@@ -63,10 +63,10 @@ try:
         mycursor.execute(sql, val)
 
 
-    #print ('--- Get Attendances ---')
-    #attendances = conn.get_attendance()
-    #for attendance in attendances:
-    #    print(attendance)
+    print ('--- Get Attendances ---')
+    attendances = conn.get_attendance()
+    for attendance in attendances:
+        print(attendance)
 
     print ('Enabling device ...')
     conn.enable_device()
