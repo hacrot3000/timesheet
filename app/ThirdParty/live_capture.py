@@ -3,6 +3,9 @@ import os
 import sys
 import mysql.connector
 import time
+from datetime import datetime
+import config
+
 
 CWD = os.path.dirname(os.path.realpath(__file__))
 ROOT_DIR = os.path.dirname(CWD)
@@ -11,17 +14,19 @@ sys.path.append(ROOT_DIR)
 #pip install -U pyzk
 from zk import ZK
 
+now = datetime.now()
+
 i = 0
 while i < 10:
 
     conn = None
-    zk = ZK('<IP>', port=4370)
+    zk = ZK(config.ip, port=config.port)
     try:
         conn = zk.connect()
-        print("Services started...")
+        print(now.strftime("%d/%m/%Y %H:%M:%S"), "Services started...")
 
         f = open("/var/log/timesheet_capture", "a")
-        f.write("Services started...\n")
+        f.write(now.strftime("%d/%m/%Y %H:%M:%S") + " Services started...\n")
         f.close()
 
 
@@ -32,10 +37,10 @@ while i < 10:
                 print (attendance)
 
                 mydb = mysql.connector.connect(
-                  host="10.9.1.9",
-                  user="duongtc",
-                  password="y9nhzJQR3*",
-                  database="timesheet"
+                  host=config.host,
+                  user=config.user,
+                  password=config.password,
+                  database=config.database
                 )
                 mycursor = mydb.cursor()
 
@@ -44,18 +49,20 @@ while i < 10:
                 mycursor.execute(sql, val)
                 mydb.commit()
 
-                print(mycursor.rowcount, "record inserted.")
+                now = datetime.now()
+
+                print(now.strftime("%d/%m/%Y %H:%M:%S"), mycursor.rowcount, " record inserted.")
 
                 f = open("/var/log/timesheet_capture", "a")
-                f.write("record inserted" + str(attendance.user_id) + "\n")
+                f.write(now.strftime("%d/%m/%Y %H:%M:%S") + " record inserted" + str(attendance.user_id) + "\n")
                 f.close()
 
 
     except Exception as e:
-        print ("Process terminate : {}".format(e))
+        print (now.strftime("%d/%m/%Y %H:%M:%S"), "Process terminate : {}".format(e))
 
         f = open("/var/log/timesheet_capture", "a")
-        f.write("Process terminate\n")
+        f.write(now.strftime("%d/%m/%Y %H:%M:%S") + " Process terminate\n")
         f.close()
         
     finally:

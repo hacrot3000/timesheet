@@ -1,0 +1,7 @@
+# -*- coding: utf-8 -*-
+host="localhost"
+user="dbusername"
+password="dbpassword"
+database="dbname"
+ip='ZK_IP'
+port=4370

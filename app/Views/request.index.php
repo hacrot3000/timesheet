@@ -16,9 +16,12 @@
 
             <a type="button" class="btn btn-info" href="{site_url}request/create/{userid}">
                 Gửi yêu cầu nghỉ phép
-            </a>          
+            </a>
+            <a type="button" class="btn btn-info" href="{site_url}request/createibaoviet/{userid}">
+                Gửi yêu cầu BHBV
+            </a>
             <div class="float-end">
-                Xem tháng 
+                Xem tháng
                 <select id="selectMonth" class="selectMonthView">
                     {months}
                     <option {selected}>{value}</option>
@@ -30,13 +33,13 @@
                     <option {selected}>{value}</option>
                     {/years}
                 </select>
-            </div>          
+            </div>
 
         </div>
 
         <table class="table table-striped table-hover table-active table-sm fixedHeader">
             <thead>
-                <tr>        
+                <tr>
                     <th scope="col" class="text-center align-middle"></th>
                     <th scope="col" class="text-center align-middle">Ngày</th>
                     {headers}
@@ -89,7 +92,7 @@
 <script>
     $(function () {
         $("#menu-timesheet").addClass('active');
-        
+
         $(".selectMonthView").change(function () {
             document.location = "{site_url}request/index/{userid}/" + $("#selectMonth").val() + "/" + $("#selectYear").val();
         });

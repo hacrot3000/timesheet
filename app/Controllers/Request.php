@@ -4,6 +4,9 @@ namespace App\Controllers;
 
 use App\Models\AbsentRequestModel;
 use App\Models\CheckinModel;
+use App\Models\ClaimFormModel;
+use PhpOffice\PhpSpreadsheet\Spreadsheet;
+use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 
 /**
  * @property CheckinModel $checkin
@@ -643,7 +646,7 @@ class Request extends BaseController
         }
         catch (\CodeIgniter\Database\Exceptions\DatabaseException $exc)
         {
-            
+
         }
 
         return redirect()->to("/request/index/$userId");
@@ -697,6 +700,143 @@ class Request extends BaseController
         $this->absentRequest->update($request['id'], $data);
 
         return redirect()->to("/request/list");
+    }
+
+    public function createibaoviet()
+    {
+        if (empty($this->session->userId))
+        {
+            return redirect()->to("/users/login?ret=/request/createibaoviet");
+        }
+
+        $userId = $this->session->userId;
+        $userInfo = $this->users->findFirstById($userId);
+
+        $claimModel = new ClaimFormModel();
+
+        $claim = $claimModel->findFirstByUser_id($userId);
+
+        $this->assign("fullname", $userInfo['fullname']);
+
+        $formData = [];
+        if (!empty($claim))
+        {
+            $claimData = unserialize($claim['data']);
+
+            foreach ($claimData as $k => $v)
+            {
+                $formData[] = [
+                    'claimname' => $k,
+                    'claimvalue' => $v,
+                ];
+            }
+        }
+
+        $this->assign("claimData", $formData);
+
+        return $this->render();
+    }
+
+    public function createibaovietsave()
+    {
+        if (empty($this->session->userId))
+        {
+            return redirect()->to("/users/login?ret=/request/createibaoviet");
+        }
+
+        $data = $this->request->getPost();
+
+        $userId = $this->session->userId;
+        $userInfo = $this->users->findFirstById($userId);
+
+        $filepath = APPPATH . 'Views/data/BVC_GYCBT_KHDN.xls';
+
+        $spreadsheet = \PhpOffice\PhpSpreadsheet\IOFactory::load($filepath);
+        $spreadsheet->setActiveSheetIndex(0);
+
+        $check = "☑";
+        $uncheck = "□";
+
+        $reportSheet  = $spreadsheet->getSheet(0);
+
+        $reportSheet->setCellValue("A11", $reportSheet->getCell("A11")->getValue() . $data['fullname']);
+        $reportSheet->setCellValue("A12", $reportSheet->getCell("A12")->getValue() . $data['inum']);
+        $reportSheet->setCellValue("A13", $reportSheet->getCell("A13")->getValue() . $data['familyMember']);
+        $reportSheet->setCellValue("A14", $reportSheet->getCell("A14")->getValue() . $data['phoneNum']);
+
+        $reportSheet->setCellValue("H11", $reportSheet->getCell("H11")->getValue() . $data['dateOfBird']);
+        $reportSheet->setCellValue("L11", $reportSheet->getCell("L11")->getValue() . $data['sex']);
+        $reportSheet->setCellValue("H12", $reportSheet->getCell("H12")->getValue() . $data['idNo']);
+        $reportSheet->setCellValue("H14", $reportSheet->getCell("H14")->getValue() . $data['email']);
+
+        $reportSheet->setCellValue("A19", $reportSheet->getCell("A19")->getValue() . $data['dateOfAccident']);
+        $reportSheet->setCellValue("A20", $reportSheet->getCell("A20")->getValue() . $data['placeOfAccident']);
+        $reportSheet->setCellValue("A22", $reportSheet->getCell("A22")->getValue() . $data['reasonOfAccident']);
+        $reportSheet->setCellValue("A27", $reportSheet->getCell("A27")->getValue() . $data['resultOfAccident']);
+        $reportSheet->setCellValue("A31", $reportSheet->getCell("A31")->getValue() . $data['numOfOffDay']);
+
+        $reportSheet->setCellValue("H19", $reportSheet->getCell("H19")->getValue() . $data['hospital']);
+        $reportSheet->setCellValue("H22", $reportSheet->getCell("H22")->getValue() . $data['diagnosis']);
+
+        if ($data['treatmentInfo'] == 'optInpatient' || $data['treatmentInfo'] == 'optAccident.optInpatient')
+        {
+            $reportSheet->setCellValue("H28", $uncheck . $reportSheet->getCell("H28")->getValue()); //Ngoai tru
+            $reportSheet->setCellValue("H30", $check . $reportSheet->getCell("H30")->getValue()); //Noi tru
+        }
+        else
+        {
+            $reportSheet->setCellValue("H28", $check . $reportSheet->getCell("H28")->getValue()); //Ngoai tru
+            $reportSheet->setCellValue("H30", $uncheck . $reportSheet->getCell("H30")->getValue()); //Noi tru
+        }
+
+        $filepath = WRITEPATH . 'cache/BVC_GYCBT_KHDN_' . $userInfo['fullname'] . "_" . uniqid() . '.xlsx';
+        $writer = new Xlsx($spreadsheet);
+        $writer->save($filepath);
+
+
+        //Save data for next create
+        $claimModel = new ClaimFormModel();
+
+        $claim = $claimModel->findFirstByUser_id($userId);
+
+        $keep = [
+            'fullname' => true,
+            'inum' => true,
+            'familyMember' => true,
+            'createrName' => true,
+            'relationship' => true,
+            'address' => true,
+            'phoneNum' => true,
+            'dateOfBird' => true,
+            'sex' => true,
+            'idNo' => true,
+            'email' => true,
+            'bankAccountName' => true,
+            'bankAccountNo' => true,
+            'bankName' => true,
+            'bankBranch' => true,
+        ];
+
+        foreach ($keep as $k => $v)
+        {
+            if (isset($data[$k]))
+                $keep[$k] = $data[$k];
+        }
+
+        if (empty($claim))
+        {
+            $claimModel->insert([
+                'user_id' => $userId,
+                'data' => serialize($keep)
+            ]);
+        }
+        else
+        {
+            $claimModel->update($userId, ['data' => serialize($keep)]);
+        }
+
+        $result = ['errors' => 'Lỗi khi gửi email cho HR và leader, vui lòng thử lại sau hoặc liên hệ team system để báo lỗi.', 'keep' => $keep, 'data' => $data];
+        return json_encode($result);
     }
 
 }

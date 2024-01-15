@@ -50,7 +50,7 @@ class SettingsModel extends BaseModel
         }
     }
 
-    public function email($subject, $content, $to, $toHR = true)
+    public function email($subject, $content, $to, $toHR = true, $file = false)
     {
         $config = [
             'protocol'    => $this->email_protocol,
@@ -77,6 +77,9 @@ class SettingsModel extends BaseModel
 
         $email->setSubject($subject);
         $email->setMessage($content);
+
+        if (!empty($file) && file_exists($file))
+            $email->attach($file);
 
         return $email->send();
     }

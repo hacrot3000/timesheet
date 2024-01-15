@@ -8,7 +8,7 @@
         <link rel="shortcut icon" type="image/png" href="/favicon.ico">
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous" />
         <link href="https://cdn.datatables.net/1.13.4/css/dataTables.bootstrap5.min.css" rel="stylesheet" />
-        <script src="https://code.jquery.com/jquery-3.6.4.min.js" crossorigin="anonymous"></script>        
+        <script src="https://code.jquery.com/jquery-3.6.4.min.js" crossorigin="anonymous"></script>
         <style type="text/css">
             body {
                 background-color: #fbfbfb;
@@ -157,18 +157,25 @@
                             ><span>Thiết lập hệ thống</span></a
                         >
                         {/is_admin_funs}
+                        {is_logged_user}
+                        <a id="menu-createibaoviet"
+                           href="{site_url}request/createibaoviet"
+                           class="list-group-item list-group-item-action py-2 ripple"
+                           >
+                            <i class="fas fa-building-circle-exclamation fa-fw me-3"></i
+                            ><span>Y/c bồi thường</span>
+                        </a>
                         <a id="menu-profile"
                            href="{site_url}users/profile"
                            class="list-group-item list-group-item-action py-2 ripple"
                            ><i class="fas fa-lock fa-fw me-3"></i><span>Thông tin cá nhân</span></a
                         >
-                        {is_logged_user}
                         <a
                             href="{site_url}users/logout"
                             class="list-group-item list-group-item-action py-2 ripple"
                             ><i class="fas fa-fw fa-right-from-bracket me-3"></i></i
                             ><span>Đăng xuất</span></a
-                        > 
+                        >
                         {/is_logged_user}
                         {not_logged_user}
                         <a
@@ -176,7 +183,7 @@
                             class="list-group-item list-group-item-action py-2 ripple"
                             ><i class="fas fa-fw fa-right-from-bracket me-3"></i></i
                             ><span>Đăng nhập</span></a
-                        > 
+                        >
                         {/not_logged_user}
                     </div>
                 </div>
@@ -203,12 +210,12 @@
 
                     <!-- Toggle button -->
 
-                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" 
-                            data-bs-target="#sidebarMenu" 
-                            aria-controls="sidebarMenu" 
+                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                            data-bs-target="#sidebarMenu"
+                            aria-controls="sidebarMenu"
                             aria-expanded="false" aria-label="Hiển thị menu">
                         <i class="fa-sharp fa-solid fa-bars text-white"></i>
-                    </button>                    
+                    </button>
 
                 </div>
                 <!-- Container wrapper -->
@@ -220,7 +227,7 @@
         <!--Main layout-->
         <main style="margin-top: 58px">
             <div class="container pt-4">
-                
+
                 <div id="isMissingCheckin" class="alert alert-warning hidden" role="alert">
                     Hệ thống chưa thấy lượt check-in của bạn trên máy chấm công, <a href="{site_url}users/checklogin/2">bấm vào đây để thực hiện check-in</a>.
-                </div>                
+                </div>
