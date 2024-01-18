@@ -702,42 +702,92 @@ class Request extends BaseController
         return redirect()->to("/request/list");
     }
 
-    public function createibaoviet()
+    public function createibaoviet($userId = 0)
     {
         if (empty($this->session->userId))
         {
             return redirect()->to("/users/login?ret=/request/createibaoviet");
         }
 
-        $userId = $this->session->userId;
+        if (!$this->session->isAdmin || empty($userId))
+        {
+            $userId = $this->session->userId;
+        }
         $userInfo = $this->users->findFirstById($userId);
 
         $claimModel = new ClaimFormModel();
 
-        $claim = $claimModel->findFirstByUser_id($userId);
+        $allClaim = $claimModel->findByUser_id($userId);
+
+        if (empty($allClaim))
+        {
+            $autoaddinum = [[]];
+        }
+        else
+        {
+            $claim = $allClaim[0];
+            $autoaddinum = [];
+        }
 
         $this->assign("fullname", $userInfo['fullname']);
 
         $formData = [];
+        $functionData = [];
+        $lstInum = [];
+
         if (!empty($claim))
         {
             $claimData = unserialize($claim['data']);
 
             foreach ($claimData as $k => $v)
             {
-                $formData[] = [
-                    'claimname' => $k,
-                    'claimvalue' => $v,
-                ];
+                if (!empty($v))
+                    $formData[] = [
+                        'claimname' => $k,
+                        'claimvalue' => $v,
+                    ];
             }
         }
 
+        foreach ($allClaim as $c)
+        {
+            $claimData = unserialize($c['data']);
+            $lstInum[] = [
+                'inumval' => $c['inum']
+            ];
+
+            $data = [
+                'fname' => md5($c['inum']),
+                'fdata' => []
+            ];
+
+            foreach ($claimData as $k => $v)
+            {
+                if (!empty($v) && $k != 'inum')
+                    $data['fdata'][] = [
+                        'claimname' => $k,
+                        'claimvalue' => $v,
+                    ];
+            }
+
+            $functionData[] = $data;
+        }
+
         $this->assign("claimData", $formData);
+        $this->assign("claimDataFunction", $functionData);
+        $this->assign("userid", $userId);
+        $this->assign("inums", $lstInum);
+        $this->assign('autoaddinum', $autoaddinum);
 
         return $this->render();
     }
 
-    public function createibaovietsave()
+    public function createibaoviethelp()
+    {
+        return $this->render("", false, false);
+    }
+
+    public function createibaovietsave($userId = 0)
     {
         if (empty($this->session->userId))
         {
@@ -746,7 +796,14 @@ class Request extends BaseController
 
         $data = $this->request->getPost();
 
-        $userId = $this->session->userId;
+        if (!$this->session->isAdmin || empty($userId))
+        {
+            $userId = $this->session->userId;
+        }
+
+        //Save data for next create
+        $claimModel = new ClaimFormModel();
+
         $userInfo = $this->users->findFirstById($userId);
 
         $filepath = APPPATH . 'Views/data/BVC_GYCBT_KHDN.xls';
@@ -760,11 +817,11 @@ class Request extends BaseController
         $reportSheet  = $spreadsheet->getSheet(0);
 
         $reportSheet->setCellValue("A11", $reportSheet->getCell("A11")->getValue() . $data['fullname']);
-        $reportSheet->setCellValue("A12", $reportSheet->getCell("A12")->getValue() . $data['inum']);
+        $reportSheet->setCellValue("A12", $reportSheet->getCell("A12")->getValue() . explode(" - ", $data['inum'])[0]);
         $reportSheet->setCellValue("A13", $reportSheet->getCell("A13")->getValue() . $data['familyMember']);
         $reportSheet->setCellValue("A14", $reportSheet->getCell("A14")->getValue() . $data['phoneNum']);
 
-        $reportSheet->setCellValue("H11", $reportSheet->getCell("H11")->getValue() . $data['dateOfBird']);
+        $reportSheet->setCellValue("H11", $reportSheet->getCell("H11")->getValue() . $claimModel->convertDate($data['dateOfBird'], true));
         $reportSheet->setCellValue("L11", $reportSheet->getCell("L11")->getValue() . $data['sex']);
         $reportSheet->setCellValue("H12", $reportSheet->getCell("H12")->getValue() . $data['idNo']);
         $reportSheet->setCellValue("H14", $reportSheet->getCell("H14")->getValue() . $data['email']);
@@ -785,19 +842,73 @@ class Request extends BaseController
         }
         else
         {
-            $reportSheet->setCellValue("H28", $check . $reportSheet->getCell("H28")->getValue()); //Ngoai tru
-            $reportSheet->setCellValue("H30", $uncheck . $reportSheet->getCell("H30")->getValue()); //Noi tru
+            $reportSheet->setCellValue("H28", $check . $reportSheet->getCell("H28")->getValue());
+            $reportSheet->setCellValue("H30", $uncheck . $reportSheet->getCell("H30")->getValue());
         }
+
+        $reportSheet->setCellValue("J28", $reportSheet->getCell("J28")->getValue() . $claimModel->convertDate($data['dateOfVisit'], true));
+        $reportSheet->setCellValue("J30", $reportSheet->getCell("J30")->getValue() . $claimModel->convertDate($data['startDate'], true));
+        $reportSheet->setCellValue("J31", $reportSheet->getCell("J31")->getValue() . $claimModel->convertDate($data['endDate'], true));
+
+        $reportSheet->setCellValue("B38", empty($data['dischargeForm'])?$uncheck:$check);
+        $reportSheet->setCellValue("B39", empty($data['Prescription'])?$uncheck:$check);
+        $reportSheet->setCellValue("B40", empty($data['testResult'])?$uncheck:$check);
+        $reportSheet->setCellValue("B41", empty($data['certificate'])?$uncheck:$check);
+        $reportSheet->setCellValue("B42", empty($data['document'])?$uncheck:$check);
+        // $reportSheet->setCellValue("B43", empty($data['dischargeForm'])?$uncheck:$check);
+
+        $data['invoiceval'] = intval($data['invoiceval']);
+        $data['billval'] = intval($data['billval']);
+        $data['otherBill1val'] = intval($data['otherBill1val']);
+        $data['otherBill2val'] = intval($data['otherBill2val']);
+        $data['otherBill3val'] = intval($data['otherBill3val']);
+        $data['otherBill4val'] = intval($data['otherBill4val']);
+        $reportSheet->setCellValue("F38", "1 " . (empty($data['invoiceval'])?$uncheck:$check));
+        $reportSheet->setCellValue("F39", "2 " . (empty($data['billval'])?$uncheck:$check));
+        $reportSheet->setCellValue("F40", "3 " . (empty($data['otherBill1val'])?$uncheck:$check));
+        $reportSheet->setCellValue("F41", "4 " . (empty($data['otherBill2val'])?$uncheck:$check));
+        $reportSheet->setCellValue("F42", "5 " . (empty($data['otherBill3val'])?$uncheck:$check));
+        $reportSheet->setCellValue("F43", "6 " . (empty($data['otherBill4val'])?$uncheck:$check));
+
+        $reportSheet->setCellValue("I38", $data['invoiceval']);
+        $reportSheet->setCellValue("I39", $data['billval']);
+        $reportSheet->setCellValue("I40", $data['otherBill1val']);
+        $reportSheet->setCellValue("I41", $data['otherBill2val']);
+        $reportSheet->setCellValue("I42", $data['otherBill3val']);
+        $reportSheet->setCellValue("I43", $data['otherBill4val']);
+
+        $reportSheet->setCellValue("G40", $data['otherBill1']);
+        $reportSheet->setCellValue("G41", $data['otherBill2']);
+        $reportSheet->setCellValue("G42", $data['otherBill3']);
+        $reportSheet->setCellValue("G43", $data['otherBill4']);
+
+        $reportSheet->setCellValue("J38", "1 " . (empty($data['checkin'])?$uncheck:$check));
+        $reportSheet->setCellValue("J39", "2 " . (empty($data['payrollsheet'])?$uncheck:$check));
+        $reportSheet->setCellValue("J40", "3 " . (empty($data['accidentReport'])?$uncheck:$check));
+        $reportSheet->setCellValue("J41", "4 " . (empty($data['deadCertificate'])?$uncheck:$check));
+        $reportSheet->setCellValue("J42", "5 " . (empty($data['otherDocument1'])?$uncheck:$check));
+        $reportSheet->setCellValue("J43", "6 " . (empty($data['otherDocument2'])?$uncheck:$check));
+
+        $reportSheet->setCellValue("K39", $reportSheet->getCell("K39")->getValue() . (empty($data['payrollsheetno'])?"":": ") . $data['payrollsheetno']);
+        $reportSheet->setCellValue("K42", $reportSheet->getCell("K42")->getValue() . $data['otherDocument1']);
+        $reportSheet->setCellValue("K43", $reportSheet->getCell("K43")->getValue() . $data['otherDocument2']);
+
+        $reportSheet->setCellValue("A46", $reportSheet->getCell("A46")->getValue() . $data['createrName']);
+        $reportSheet->setCellValue("A47", $reportSheet->getCell("A47")->getValue() . $data['relationship']);
+        $reportSheet->setCellValue("A48", $reportSheet->getCell("A48")->getValue() . $data['address']);
+        $reportSheet->setCellValue("K48", $reportSheet->getCell("K48")->getValue() . $data['phoneNum']);
+
+        $reportSheet->setCellValue("H52", $reportSheet->getCell("H52")->getValue() . $data['bankAccountName']);
+        $reportSheet->setCellValue("H53", $reportSheet->getCell("H53")->getValue() . $data['bankAccountNo']);
+        $reportSheet->setCellValue("H54", $reportSheet->getCell("H54")->getValue() . $data['bankName']);
+        $reportSheet->setCellValue("H55", $reportSheet->getCell("H55")->getValue() . $data['bankBranch']);
 
         $filepath = WRITEPATH . 'cache/BVC_GYCBT_KHDN_' . $userInfo['fullname'] . "_" . uniqid() . '.xlsx';
         $writer = new Xlsx($spreadsheet);
         $writer->save($filepath);
 
 
-        //Save data for next create
-        $claimModel = new ClaimFormModel();
-
-        $claim = $claimModel->findFirstByUser_id($userId);
+        $claim = $claimModel->findByUserAndInum($userId, $data['inum']);
 
         $keep = [
             'fullname' => true,
@@ -827,15 +938,36 @@ class Request extends BaseController
         {
             $claimModel->insert([
                 'user_id' => $userId,
+                'inum' => $data['inum'],
                 'data' => serialize($keep)
             ]);
         }
         else
         {
-            $claimModel->update($userId, ['data' => serialize($keep)]);
+            $claimModel->update($claim['id'], ['data' => serialize($keep)]);
         }
 
-        $result = ['errors' => 'Lỗi khi gửi email cho HR và leader, vui lòng thử lại sau hoặc liên hệ team system để báo lỗi.', 'keep' => $keep, 'data' => $data];
+        $email = "";
+        if (!empty($userInfo['email']))
+        {
+            $email .= $userInfo['email'];
+        }
+
+        $this->assign("fullname", $userInfo['fullname']);
+        $this->assign("team", $userInfo['team']);
+
+        $content = $this->render("modules/email_bhbv", false, false);
+
+
+        $sendResult = $this->settings->email("{$userInfo['fullname']} gửi yêu cầu bồi thường", $content, $email, true, $filepath);
+
+        if (!$sendResult)
+        {
+            $result = ['errors' => "Lỗi khi gửi email cho HR, vui lòng thử lại sau hoặc liên hệ team system để báo lỗi."];
+            return json_encode($result);
+        }
+
+        $result = ['errors' => ""];
         return json_encode($result);
     }
 

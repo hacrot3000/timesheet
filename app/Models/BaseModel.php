@@ -35,12 +35,26 @@ abstract class BaseModel extends Model
         return (substr($string, 0, $len) === $startString);
     }
 
-    public function convertDate($datetime)
+    public function convertDate($datetime, $dateOnly = false)
     {
-        $date    = explode(' ', $datetime);
-        $time    = $date[1];
-        $datetmp = explode('-', $date[0]);
-        return $datetmp[2] . '/' . $datetmp[1] . '/' . substr($datetmp[0], 2) . " $time";
+        if (empty($datetime))
+        {
+            return "";
+        }
+        if ($dateOnly)
+        {
+            $time    = '';
+            $datetmp = explode('-', $datetime);
+        }
+        else
+        {
+            $date    = explode(' ', $datetime);
+            $time    = ' ' . $date[1];
+            $datetmp = explode('-', $date[0]);
+
+            $datetmp[0] = substr($datetmp[0], 2);
+        }
+        return $datetmp[2] . '/' . $datetmp[1] . '/' . $datetmp[0] . $time;
     }
 
     public function beginTransaction()
