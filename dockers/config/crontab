@@ -1,0 +1,4 @@
+PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+
+15,30 8,9,18,19 * * * python3 /var/www/html/app/ThirdParty/get_checkin.py
+30 22 * * * python3 /var/www/html/app/ThirdParty/get_users.py

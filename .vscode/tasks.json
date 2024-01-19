@@ -1,0 +1,35 @@
+{
+	"version": "2.0.0",
+	"tasks": [
+		{
+		"label": "Build docker",
+		"type": "shell",
+		"command": "./build.sh",
+		"problemMatcher": [],
+		"group": {
+				"kind": "build",
+				"isDefault": false
+			}
+		},
+		{
+		"label": "Create docker image",
+		"type": "shell",
+		"command": "docker save timesheet.568 -o dockers/timesheet.tar.gz",
+		"problemMatcher": [],
+		"group": {
+				"kind": "build",
+				"isDefault": false
+			}
+		},
+		{
+		"label": "Execute container",
+		"type": "shell",
+		"command": "cd /home/duongtc/568E/timesheet_docs && docker-compose down && docker-compose up -d",//docker run -dit --name timesheet-app -p 8080:80 timesheet.568
+		"problemMatcher": [],
+		"group": {
+				"kind": "build",
+				"isDefault": false
+			}
+		},
+	]
+}

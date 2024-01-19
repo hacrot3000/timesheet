@@ -21,14 +21,11 @@ class Database extends Config
      */
     public string $defaultGroup = 'default';
 
-    /**
-     * The default database connection.
-     */
     public array $default = [
         'DSN'      => '',
-        'hostname' => '10.9.1.9',
-        'username' => 'duongtc',
-        'password' => 'y9nhzJQR3*',
+        'hostname' => '127.0.0.1',
+        'username' => 'timesheet',
+        'password' => 'y9nhzJQR3',
         'database' => 'timesheet',
         'DBDriver' => 'MySQLi',
         'DBPrefix' => '',
@@ -74,11 +71,25 @@ class Database extends Config
     {
         parent::__construct();
 
-        // Ensure that we always set the database group to 'tests' if
-        // we are currently running an automated test suite, so that
-        // we don't overwrite live data on accident.
-        if (ENVIRONMENT === 'testing') {
-            $this->defaultGroup = 'tests';
-        }
+        $host = getenv('MYSQL_HOST');
+        $db = getenv('MYSQL_DB');
+        $pass = getenv('MYSQL_PASS');
+        $port = getenv('MYSQL_PORT');
+        $user = getenv('MYSQL_USER');
+
+        if (!empty($host)) $this->default['hostname'] = $host;
+        if (!empty($db)) $this->default['database'] = $db;
+        if (!empty($port)) $this->default['port'] = $port;
+        if (!empty($pass)) $this->default['password'] = $pass;
+        if (!empty($user)) $this->default['username'] = $user;
+
+        #if (!empty($host) && !empty($db) && !empty($user))
+
+        // // Ensure that we always set the database group to 'tests' if
+        // // we are currently running an automated test suite, so that
+        // // we don't overwrite live data on accident.
+        // if (ENVIRONMENT === 'testing') {
+        //     $this->defaultGroup = 'tests';
+        // }
     }
 }

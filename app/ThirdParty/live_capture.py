@@ -20,7 +20,7 @@ i = 0
 while i < 10:
 
     conn = None
-    zk = ZK(config.ip, port=config.port)
+    zk = ZK(config.zk_ip, port=config.zk_port)
     try:
         conn = zk.connect()
         print(now.strftime("%d/%m/%Y %H:%M:%S"), "Services started...")
@@ -40,7 +40,8 @@ while i < 10:
                   host=config.host,
                   user=config.user,
                   password=config.password,
-                  database=config.database
+                  database=config.database,
+                  port=config.dbport
                 )
                 mycursor = mydb.cursor()
 
@@ -64,7 +65,7 @@ while i < 10:
         f = open("/var/log/timesheet_capture", "a")
         f.write(now.strftime("%d/%m/%Y %H:%M:%S") + " Process terminate\n")
         f.close()
-        
+
     finally:
         if conn:
             conn.disconnect()

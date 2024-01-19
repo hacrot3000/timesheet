@@ -92,3 +92,11 @@ define('EVENT_PRIORITY_NORMAL', 100);
  * @deprecated Use \CodeIgniter\Events\Events::PRIORITY_HIGH instead.
  */
 define('EVENT_PRIORITY_HIGH', 10);
+
+
+$baseurl = getenv('SITE_URL');
+
+if (!empty($baseurl))
+    define("BASE_URL", $baseurl);
+else
+    define("BASE_URL", 'https://time.568int.com/');

@@ -1,0 +1,56 @@
+version: "3.9"
+services:
+  mysql:
+    container_name: timesheet_mysql
+    restart: always
+    image: mysql:latest
+    environment:
+      MYSQL_ROOT_PASSWORD: 'hj*&*&hdhj'
+      MYSQL_USER: 'timesheet'
+      MYSQL_PASS: 'y9nhzJQR3'
+      MYSQL_DATABASE: 'timesheet'
+    volumes:
+      - type: volume
+        source: datavolume
+        target: /var/lib/mysql
+        volume:
+          nocopy: true
+    ports:
+      - "3306:3306"
+
+  timesheetapp:
+    container_name: timesheet-app
+    restart: always
+    image: timesheet.568
+    environment:
+      MYSQL_HOST: 'timesheet_mysql'
+      MYSQL_DB: 'timesheet'
+      MYSQL_USER: 'timesheet'
+      MYSQL_PASS: 'y9nhzJQR3'
+      MYSQL_PORT: '3306'
+      SITE_URL: 'https://localhost:8088/'
+      ZK_IP: '10.20.15.10'
+      ZK_PORT: 4370
+    volumes:
+      - type: volume
+        source: sslvolume
+        target: /opt/ssl
+        volume:
+          nocopy: true
+    ports:
+      - "8080:80"
+      - "8088:443"
+
+volumes:
+  datavolume:
+    driver: local
+    driver_opts:
+      type: 'none'
+      o: 'bind'
+      device: '/opt/mysql_data'
+  sslvolume:
+    driver: local
+    driver_opts:
+      type: 'none'
+      o: 'bind'
+      device: '/opt/ssl' #568int.com.pem should be here for the HTTPS

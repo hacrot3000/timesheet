@@ -16,7 +16,8 @@ mydb = mysql.connector.connect(
   host=config.host,
   user=config.user,
   password=config.password,
-  database=config.database
+  database=config.database,
+  port=config.dbport
 )
 mycursor = mydb.cursor()
 
@@ -28,7 +29,7 @@ sql = "INSERT IGNORE INTO users (id, username, fullname, is_admin, paid_leave_pe
 
 
 conn = None
-zk = ZK(config.ip, port=config.port)
+zk = ZK(config.zk_ip, port=config.zk_port)
 try:
     conn = zk.connect()
     print ('Disabling device ...')

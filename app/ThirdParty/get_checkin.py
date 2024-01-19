@@ -15,7 +15,8 @@ mydb = mysql.connector.connect(
   host=config.host,
   user=config.user,
   password=config.password,
-  database=config.database
+  database=config.database,
+  port=config.dbport
 )
 mycursor = mydb.cursor()
 
@@ -23,7 +24,7 @@ sql = "insert ignore into checkin (user_id, `date`, `time`) values (%s, %s, %s)"
 
 
 conn = None
-zk = ZK(config.ip, port=config.port)
+zk = ZK(config.zk_ip, port=config.zk_port)
 try:
     conn = zk.connect()
     #print ('Disabling device ...')
