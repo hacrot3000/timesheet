@@ -37,6 +37,11 @@ services:
         target: /opt/ssl
         volume:
           nocopy: true
+      - type: volume
+        source: databackup
+        target: /var/backup
+        volume:
+          nocopy: true
     ports:
       - "8080:80"
       - "8088:443"
@@ -48,6 +53,12 @@ volumes:
       type: 'none'
       o: 'bind'
       device: '/opt/mysql_data'
+  databackup:
+    driver: local
+    driver_opts:
+      type: 'none'
+      o: 'bind'
+      device: '/opt/timesheet_databackup'
   sslvolume:
     driver: local
     driver_opts:
