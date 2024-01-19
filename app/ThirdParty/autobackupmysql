@@ -1,0 +1,6 @@
+#!/bin/bash
+
+mysqldump -u ${MYSQL_USER} -p"${MYSQL_PASS}" -h ${MYSQL_HOST} -P ${MYSQL_PORT} ${MYSQL_DB} --no-tablespaces > /var/backup/timesheet-$(date +%Y%m%d).sql
+gzip -f9 /var/backup/timesheet-$(date +%Y%m%d).sql
+
+find /var/backup/ -type f -name "*" -mtime +30 -delete
