@@ -961,6 +961,7 @@ class Request extends BaseController
 
         $sendResult = $this->settings->email("{$userInfo['fullname']} gửi yêu cầu bồi thường", $content, $email, true, $filepath);
 
+        @unlink($filepath);
         if (!$sendResult)
         {
             $result = ['errors' => "Lỗi khi gửi email cho HR, vui lòng thử lại sau hoặc liên hệ team system để báo lỗi."];
