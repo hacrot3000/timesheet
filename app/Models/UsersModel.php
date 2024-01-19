@@ -67,9 +67,11 @@ class UsersModel extends BaseModel
             $session->isLeader = $user['is_team_lead'];
             $session->team = $user['team'];
 
-            if (!empty($openidKey))
-                // $this->update($user['id'], ['password' => $openidKey]);
-                $this->update($user['id'], ['remember_key' => $openidKey]);
+            if (!empty($openidKey) && $user['password'] != $openidKey)
+            {
+                $this->update($user['id'], ['password' => $openidKey]);
+                //$this->update($user['id'], ['remember_key' => $openidKey]);
+            }
         }
 
         return $user;
