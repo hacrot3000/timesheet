@@ -9,6 +9,7 @@
         "ext-intl": "*",
         "ext-json": "*",
         "ext-mbstring": "*",
+        "jumbojett/openid-connect-php": "0.8.0",
         "laminas/laminas-escaper": "^2.9",
         "phpoffice/phpspreadsheet": "^1.28",
         "psr/log": "^1.1"

@@ -31,21 +31,26 @@ class UsersModel extends BaseModel
     // protected $validationMessages = [];
     // protected $skipValidation     = false;
 
-    public function authencation($username, $password, $remember)
+    public function authencation($username, $password, $remember, $openidKey = '')
     {
         $where = [
             'username' => $username,
             'password' => empty($password)?'':md5(md5($password))
         ];
 
+        if (!empty($openidKey))
+        {
+            unset($where['password']);
+        }
 
         $user = $this->asArray()
                 ->where($where)
                 ->first();
 
+
         if (!empty($user))
         {
-            if (empty($password) && !empty($user['is_admin']))
+            if (empty($user['password']) && !empty($user['is_admin']))
             {
                 return null;
             }
@@ -61,6 +66,10 @@ class UsersModel extends BaseModel
             $session->isAdmin = $user['is_admin'];
             $session->isLeader = $user['is_team_lead'];
             $session->team = $user['team'];
+
+            if (!empty($openidKey))
+                // $this->update($user['id'], ['password' => $openidKey]);
+                $this->update($user['id'], ['remember_key' => $openidKey]);
         }
 
         return $user;
@@ -68,7 +77,7 @@ class UsersModel extends BaseModel
 
     public function logout()
     {
-        $session          = \Config\Services::session();        
+        $session          = \Config\Services::session();
         $this->update($session->userId, ['remember_key' => null]);
         $this->setRememberCookie();
         $session->userId  = 0;
@@ -107,7 +116,7 @@ class UsersModel extends BaseModel
         $user = $this->asArray()
                 ->where($where)
                 ->first();
-        
+
         if (!empty($user))
         {
             $session = \Config\Services::session();
@@ -124,7 +133,7 @@ class UsersModel extends BaseModel
         $where = [
                 //'role > ' => 0,
         ];
-        
+
         if (!empty($team))
         {
             $where['team'] = $team;
@@ -176,21 +185,21 @@ class UsersModel extends BaseModel
 
         return $encrypted;
     }
-    
+
     public function leaderEmail($team)
     {
         $this->select('email');
         $this->where('is_team_lead', 1);
         $this->where('team', $team);
         $all = $this->findAll();
-        
+
         $emails = [];
-        
+
         foreach ($all as $a)
         {
             $emails[] = $a['email'];
         }
-        
+
         return implode(',', $emails);
     }
 

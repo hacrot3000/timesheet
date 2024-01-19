@@ -156,7 +156,28 @@ class AddSettingData extends Migration
                 "desc"      => "Giờ bắt đầu ngày làm việc",
                 "descext"   => null,
                 "canchange" => 1
-            ]
+            ],
+            [
+                "key"       => "openid_issuer",
+                "value"     => "",
+                "desc"      => "OpenID issuer",
+                "descext"   => null,
+                "canchange" => 1
+            ],
+            [
+                "key"       => "openid_secret",
+                "value"     => "",
+                "desc"      => "OpenID secret",
+                "descext"   => null,
+                "canchange" => 1
+            ],
+            [
+                "key"       => "openid_client_id",
+                "value"     => "",
+                "desc"      => "OpenID clientID",
+                "descext"   => null,
+                "canchange" => 1
+            ],
         ];
 
         foreach ($data as $row)

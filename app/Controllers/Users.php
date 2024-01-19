@@ -6,6 +6,7 @@ use App\Models\AbsentRequestModel;
 use App\Models\CheckinModel;
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
+use Jumbojett\OpenIDConnectClient;
 
 /**
  * @property CheckinModel $checkin
@@ -51,7 +52,7 @@ class Users extends BaseController
         {
             $this->assign('is_first_quater', array());
         }
-        
+
         if (empty($team))
         {
             $team = $this->session->team;
@@ -73,10 +74,10 @@ class Users extends BaseController
         }
 
         $this->assign('teamList', $teamList);
-        
+
 
         $listUser = $this->users->getAll($team);
-        
+
         foreach ($listUser as &$u)
         {
             if ($u['is_team_lead'])
@@ -236,9 +237,50 @@ class Users extends BaseController
         return redirect()->to($ret);
     }
 
+    public function loginOpenId()
+    {
+        try{
+            $issuer = $this->settings->openid_issuer;
+            $cid = $this->settings->openid_client_id;
+            $secret = $this->settings->openid_secret;
+            $oidc = new \Jumbojett\OpenIDConnectClient($issuer, $cid, $secret);
+
+            $oidc->authenticate();
+            $data = $oidc->requestUserInfo();
+        } catch (\Exception $e) {
+            return $this->showMessages("", "Lỗi khi thực hiện, vui lòng thử lại sau: " . $e->getMessage());
+        }
+
+        if (!empty($data->sub))
+        {
+            $username = explode("@", $data->email)[0];
+
+            $data = $this->users->authencation($username, '', '', $data->sub);
+
+            if (empty($data))
+            {
+                return $this->showMessages("", "Tài khoản trên máy chấm công chưa được khởi tạo. Vui lòng liên hệ team system để được hướng dẫn.");
+            }
+
+            $ret = $this->request->getGetPost('ret');
+            return $this->doAuth($ret);
+        }
+        else
+        {
+            return $this->showMessages("", "Hệ thống yêu cầu đăng nhập hợp lệ");
+        }
+
+    }
+
     public function login()
     {
         $ret = $this->request->getGetPost('ret');
+
+        $openId = $this->settings->openid_issuer;
+        if (!empty($openId))
+        {
+            return redirect()->to("/users/loginOpenId?ret=$ret");
+        }
 
         $data = $this->users->authencationByRememberKey();
         if (!empty($data))
@@ -251,6 +293,13 @@ class Users extends BaseController
 
         if (!empty($username))
         {
+            $check = explode("@", $username);
+
+            if (count($check) == 2)
+            {
+                $username = $check[0];
+            }
+
             $remember = $this->request->getPost('remember');
 
             $data = $this->users->authencation($username, $password, $remember);
