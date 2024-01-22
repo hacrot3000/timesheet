@@ -6,3 +6,21 @@
 /vendor
 /.lh
 /app/ThirdParty/timesheet_capture.log
+
+.vscode/settings.json
+Dockerfile copy
+Dockerfile_apache
+app/ThirdParty/__pycache__/
+app/ThirdParty/backupmysql
+app/ThirdParty/config.py_
+app/ThirdParty/config.py_e
+bash_container
+dockers/config/apache2.conf
+dockers/config/httpd.conf
+dockers/config/php.ini
+dockers/config/ssl/
+dockers/timesheet.tar.gz
+mount_data
+phpMyAdmin-5.2.1-english/
+public/bot/
+public/js/
