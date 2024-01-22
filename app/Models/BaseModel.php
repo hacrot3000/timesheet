@@ -71,7 +71,51 @@ abstract class BaseModel extends Model
     {
         $this->db->query('ROLLBACK');
     }
-    
+
+    public function genNextCode($prefix)
+    {
+        $lastCode = $this->asArray()
+                ->orderBy('code', 'desc')
+                ->first();
+
+        if (empty($lastCode))
+        {
+            return "{$prefix}00001";
+        }
+
+        $lastCode = $lastCode['code'];
+
+        $matches = array();
+        if (preg_match('#(\d+)$#', $lastCode, $matches))
+        {
+            if (!empty($matches[1]))
+            {
+                $number     = $matches[0];
+                $strNumLen  = strlen($number);
+                $prefix     = substr($lastCode, 0, strlen($lastCode) - $strNumLen);
+                $nextNumber = intval($number);
+
+                do
+                {
+                    $nextNumber = $nextNumber + 1;
+                    if (strlen($nextNumber) > $strNumLen)
+                    {
+                        $strNumLen = strlen($nextNumber) + 1;
+                    }
+                    $nextNumber = "000000000000$nextNumber";
+                    $nextNumber = substr($nextNumber, strlen($nextNumber) - $strNumLen);
+                    $newcode    = "$prefix$nextNumber";
+
+                    $check = $this->findByCode($newcode);
+                }
+                while (!empty($check));
+
+                return "$prefix$nextNumber";
+            }
+        }
+
+        return "{$lastCode}00001";
+    }
 
     public function __call($name, $arguments)
     {
