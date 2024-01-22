@@ -38,6 +38,7 @@ RUN crontab < /tmp/crontab && rm -f /tmp/crontab
 ## Python
 RUN mv /usr/lib/python3.11/EXTERNALLY-MANAGED /usr/lib/python3.11/EXTERNALLY-MANAGED.old
 RUN pip install -U pyzk mysql-connector-python
+RUN mv /usr/lib/python3.11/EXTERNALLY-MANAGED.old /usr/lib/python3.11/EXTERNALLY-MANAGED
 
 RUN apt-get update && apt-get install -y net-tools telnet
 

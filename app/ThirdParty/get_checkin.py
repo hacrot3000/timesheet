@@ -24,7 +24,8 @@ sql = "insert ignore into checkin (user_id, `date`, `time`) values (%s, %s, %s)"
 
 
 conn = None
-zk = ZK(config.zk_ip, port=config.zk_port)
+#zk = ZK(config.zk_ip, port=config.zk_port)
+zk = ZK(config.zk_ip, port=config.zk_port, timeout=10, password=0, force_udp=True, ommit_ping=True)
 try:
     conn = zk.connect()
     #print ('Disabling device ...')

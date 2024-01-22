@@ -22,9 +22,9 @@ else:
     database="timesheet"
 
 if os.environ.get('MYSQL_HOST') is not None:
-    dbport=os.environ['MYSQL_PORT']
+    dbport=int(os.environ['MYSQL_PORT'])
 else:
-    dbport="3306"
+    dbport=3306
 
 if os.environ.get('MYSQL_HOST') is not None:
     zk_ip=os.environ['ZK_IP']
@@ -32,6 +32,6 @@ else:
     zk_ip='10.20.15.10'
 
 if os.environ.get('MYSQL_HOST') is not None:
-    zk_port=os.environ['ZK_PORT']
+    zk_port=int(os.environ['ZK_PORT'])
 else:
     zk_port=4370

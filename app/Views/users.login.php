@@ -90,6 +90,7 @@
                     </div>
                     <div class="col-md-12 text-center">
                         <button type="submit" class="btn btn-primary align-middle">Đăng nhập</button>
+                        <a class="btn btn-success align-middle" href="{site_url}users/loginOpenId?ret={ret}">Đăng nhập bằng Office account</a>
                     </div>
                 </form>
             </div>

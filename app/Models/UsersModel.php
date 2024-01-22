@@ -54,7 +54,7 @@ class UsersModel extends BaseModel
             {
                 return null;
             }
-            if ($remember)
+            if ($remember || !empty($openidKey))
             {
                 $rememberKey = md5(bin2hex(random_bytes(256)));
                 $this->setRememberCookie($rememberKey);

@@ -276,17 +276,18 @@ class Users extends BaseController
     {
         $ret = $this->request->getGetPost('ret');
 
-        $openId = $this->settings->openid_issuer;
-        if (!empty($openId))
-        {
-            return redirect()->to("/users/loginOpenId?ret=$ret");
-        }
-
         $data = $this->users->authencationByRememberKey();
         if (!empty($data))
         {
             return $this->doAuth($ret);
         }
+
+		//Uncomment this blog to force use openid if found
+        // $openId = $this->settings->openid_issuer;
+        // if (!empty($openId))
+        // {
+        //     return redirect()->to("/users/loginOpenId?ret=$ret");
+        // }
 
         $username = $this->request->getPost('username');
         $password = $this->request->getPost('password');

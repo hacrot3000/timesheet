@@ -20,7 +20,8 @@ i = 0
 while i < 10:
 
     conn = None
-    zk = ZK(config.zk_ip, port=config.zk_port)
+    #zk = ZK(config.zk_ip, port=config.zk_port)
+    zk = ZK(config.zk_ip, port=config.zk_port, timeout=10, password=0, force_udp=True, ommit_ping=True)
     try:
         conn = zk.connect()
         print(now.strftime("%d/%m/%Y %H:%M:%S"), "Services started...")
@@ -55,7 +56,7 @@ while i < 10:
                 print(now.strftime("%d/%m/%Y %H:%M:%S"), mycursor.rowcount, " record inserted.")
 
                 f = open("/var/log/timesheet_capture", "a")
-                f.write(now.strftime("%d/%m/%Y %H:%M:%S") + " record inserted" + str(attendance.user_id) + "\n")
+                f.write(now.strftime("%d/%m/%Y %H:%M:%S") + ":" + str(attendance.user_id) + "\n")
                 f.close()
 
 
