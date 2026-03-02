@@ -110,6 +110,23 @@ class SettingsModel extends BaseModel
     {
         return in_array($ip, $this->office_ips);
     }
+    
+    public function getDaysInPreviousMonth(int $month, int $year): int
+    {
+        // Tạo ngày 1 của tháng được truyền vào
+        $dt = new \DateTime();
+        $dt->setDate($year, $month, 1);
+        $dt->setTime(0, 0, 0);
+
+        // Lùi về tháng trước
+        $dt->modify('-1 month');
+
+        // 't' = số ngày trong tháng hiện tại của object
+        $d1 = (int) $dt->format('t');
+        $d2 = $this->settings['start_month_date'];
+        
+        return min($d1, $d2);
+    }    
 
     public function __get(string $name)
     {
@@ -130,7 +147,7 @@ class SettingsModel extends BaseModel
         if ($name == 'office_ips')
         {
             return explode(',', $this->settings['office_ips']);
-        }
+        }  
 
         return $this->settings[$name];
     }
@@ -150,7 +167,7 @@ class SettingsModel extends BaseModel
             $currentYear    = $rawCurrentYear = date("Y");
         }
 
-        $startDate = $this->start_month_date;
+        $startDate = $this->getDaysInPreviousMonth($currentMonth, $currentYear);
 
         if ($startDate > 1)
         {
@@ -185,7 +202,13 @@ class SettingsModel extends BaseModel
             $currentYear  -= 1;
         }
 
-        $startDateData = sprintf('%04d-%02d-%02d', $currentYear, $currentMonth, $currentDate);
+        //$startDateData = sprintf('%04d-%02d-%02d', $currentYear, $currentMonth, $currentDate);
+        $startObj = new \DateTime();
+        $startObj->setDate($currentYear, $currentMonth, 1);
+        $startObj->setTime(0,0,0);
+        $startObj->modify('+' . ($currentDate - 1) . ' days');
+
+        $startDateData = $startObj->format('Y-m-d');        
 
         $allCheckin      = array();
         $currentDatetime = new \DateTime();
@@ -246,7 +269,12 @@ class SettingsModel extends BaseModel
         }
 
 
-        $endDateData = sprintf('%04d-%02d-%02d', $currentYear, $currentMonth, $endDay);
+        //$endDateData = sprintf('%04d-%02d-%02d', $currentYear, $currentMonth, $endDay);
+        //$endDateData = $currentDatetime->format('Y-m-d');
+        $lastDateObj = clone $currentDatetime;
+        $lastDateObj->modify('-1 day');
+
+        $endDateData = $lastDateObj->format('Y-m-d');        
 
         return $allCheckin;
     }
