@@ -103,7 +103,11 @@ class Users extends BaseController
 
     public function updateuser()
     {
-        if (!$this->session->isAdmin && !$this->session->isIT)
+        $currentUser = $this->users->findFirstById($this->session->userId);
+        $isAdmin     = !empty($currentUser['is_admin']);
+        $isIT        = !empty($currentUser['is_it']);
+
+        if (!$isAdmin && !$isIT)
         {
             throw \CodeIgniter\Exceptions\PageNotFoundException::forPageNotFound();
         }
@@ -155,7 +159,7 @@ class Users extends BaseController
 
         // Only administrators may change authorization flags.
         // IT staff can edit account information but posted role fields are ignored.
-        if ($this->session->isAdmin)
+        if ($isAdmin)
         {
             $data['is_admin'] = $this->request->getPost('is_admin') ? 1 : 0;
             $data['is_it']    = $this->request->getPost('is_it') ? 1 : 0;
@@ -167,7 +171,7 @@ class Users extends BaseController
         {
             $this->session->team = $team;
 
-            if ($this->session->isAdmin)
+            if ($isAdmin)
             {
                 $this->session->isAdmin = $data['is_admin'];
                 $this->session->isIT    = $data['is_it'];
