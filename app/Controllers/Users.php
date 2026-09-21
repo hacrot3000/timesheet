@@ -62,32 +62,119 @@ class Users extends BaseController
             $team = '';
         }
 
-        $teams    = $this->settings->team;
-        $teamList = array();
+        $teams        = $this->settings->team;
+        $teamList     = array();
+        $editTeamList = array();
 
         foreach ($teams as &$t)
         {
             $teamList[] = [
-                'teamName'     => $t,
+                'teamName'         => $t,
                 'teamListSelected' => ($t == $team) ? 'selected' : ''
+            ];
+            $editTeamList[] = [
+                'teamName' => htmlspecialchars($t, ENT_QUOTES, 'UTF-8')
             ];
         }
 
         $this->assign('teamList', $teamList);
+        $this->assign('editTeamList', $editTeamList);
 
 
         $listUser = $this->users->getAll($team);
 
         foreach ($listUser as &$u)
         {
+            $u['team_display']  = $u['team'];
+            $u['username_attr'] = htmlspecialchars($u['username'], ENT_QUOTES, 'UTF-8');
+            $u['fullname_attr'] = htmlspecialchars($u['fullname'], ENT_QUOTES, 'UTF-8');
+            $u['team_attr']     = htmlspecialchars($u['team'], ENT_QUOTES, 'UTF-8');
+            $u['email_attr']    = htmlspecialchars($u['email'], ENT_QUOTES, 'UTF-8');
+
             if ($u['is_team_lead'])
             {
-                $u['team'] .= " (teamlead)";
+                $u['team_display'] .= " (teamlead)";
             }
         }
 
         $this->assign("listUser", $listUser);
         return $this->render();
+    }
+
+    public function updateuser()
+    {
+        if (!$this->session->isAdmin && !$this->session->isIT)
+        {
+            throw \CodeIgniter\Exceptions\PageNotFoundException::forPageNotFound();
+        }
+
+        $userId = intval($this->request->getPost('user_id'));
+        $user   = $this->users->findFirstById($userId);
+
+        if (empty($user))
+        {
+            throw \CodeIgniter\Exceptions\PageNotFoundException::forPageNotFound();
+        }
+
+        $username = trim((string) $this->request->getPost('username'));
+        $fullname = trim((string) $this->request->getPost('fullname'));
+        $team     = trim((string) $this->request->getPost('team'));
+        $email    = trim((string) $this->request->getPost('email'));
+
+        if (empty($username) || mb_strlen($username) > 45)
+        {
+            return $this->showMessages('Dữ liệu không hợp lệ', 'Username không được để trống và tối đa 45 ký tự.');
+        }
+
+        if (empty($fullname) || mb_strlen($fullname) > 50)
+        {
+            return $this->showMessages('Dữ liệu không hợp lệ', 'Họ và tên không được để trống và tối đa 50 ký tự.');
+        }
+
+        if (!in_array($team, $this->settings->team, true))
+        {
+            return $this->showMessages('Dữ liệu không hợp lệ', 'Team không hợp lệ.');
+        }
+
+        if (empty($email) || mb_strlen($email) > 60 || filter_var($email, FILTER_VALIDATE_EMAIL) === false)
+        {
+            return $this->showMessages('Dữ liệu không hợp lệ', 'Email không hợp lệ.');
+        }
+
+        if ($this->users->usernameExists($username, $userId))
+        {
+            return $this->showMessages('Dữ liệu không hợp lệ', 'Username đã được sử dụng bởi tài khoản khác.');
+        }
+
+        $data = [
+            'username' => $username,
+            'fullname' => $fullname,
+            'team'     => $team,
+            'email'    => $email,
+        ];
+
+        // Only administrators may change authorization flags.
+        // IT staff can edit account information but posted role fields are ignored.
+        if ($this->session->isAdmin)
+        {
+            $data['is_admin'] = $this->request->getPost('is_admin') ? 1 : 0;
+            $data['is_it']    = $this->request->getPost('is_it') ? 1 : 0;
+        }
+
+        $this->users->update($userId, $data);
+
+        if ($userId == $this->session->userId)
+        {
+            $this->session->team = $team;
+
+            if ($this->session->isAdmin)
+            {
+                $this->session->isAdmin = $data['is_admin'];
+                $this->session->isIT    = $data['is_it'];
+            }
+        }
+
+        return $this->showMessages('Cập nhật thành công', 'Thông tin tài khoản đã được cập nhật.', site_url('/users'));
     }
 
     public function updateanualleave($type, $user_id, $value)
