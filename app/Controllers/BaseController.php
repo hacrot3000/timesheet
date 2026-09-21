@@ -90,6 +90,7 @@ abstract class BaseController extends Controller
         {
             
             $this->session->isAdmin = false;
+            $this->session->isIT = false;
             $this->session->isLead = false;
             $this->session->userId  = 0;
 
@@ -109,6 +110,15 @@ abstract class BaseController extends Controller
         else
         {
             $this->assign('is_admin_funs', array());
+        }
+
+        if ($this->session->isAdmin || $this->session->isIT)
+        {
+            $this->assign('can_manage_users', array(array()));
+        }
+        else
+        {
+            $this->assign('can_manage_users', array());
         }
 
         if ($this->session->isLeader)
