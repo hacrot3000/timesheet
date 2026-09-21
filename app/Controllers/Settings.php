@@ -30,10 +30,15 @@ class Settings extends BaseController
     public function initController(RequestInterface $request, ResponseInterface $response, LoggerInterface $logger)
     {
         parent::initController($request, $response, $logger);
+    }
 
-        if (!empty($this->session->isAdmin))
+    private function requireAdminPermission()
+    {
+        $currentUser = $this->users->findFirstById($this->session->userId);
+
+        if (empty($currentUser) || empty($currentUser['is_admin']))
         {
-            return redirect()->to("/");
+            throw \CodeIgniter\Exceptions\PageNotFoundException::forPageNotFound();
         }
     }
 
@@ -223,6 +228,8 @@ class Settings extends BaseController
 
     public function index()
     {
+        $this->requireAdminPermission();
+
         $settings = $this->settings->findByCanChange(1);
 
         foreach ($settings as &$s)
@@ -251,6 +258,8 @@ class Settings extends BaseController
 
     public function update()
     {
+        $this->requireAdminPermission();
+
         $settings    = $this->settings->findByCanChange(1);
         $newSettings = $this->request->getPost();
 
@@ -267,6 +276,8 @@ class Settings extends BaseController
 
     public function testmail($receiver)
     {
+        $this->requireAdminPermission();
+
         $content = $this->render("modules/email_test", false, false);
 
         $sendResult = $this->settings->email("Email thử nghiệm", $content, $receiver, false);
