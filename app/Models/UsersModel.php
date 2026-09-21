@@ -67,9 +67,6 @@ class UsersModel extends BaseModel
             $session->isIT     = $user['is_it'];
             $session->isLeader = $user['is_team_lead'];
             $session->team     = $user['team'];
-            $session->isIT = $user['is_it'];
-            $session->isLeader = $user['is_team_lead'];
-            $session->team = $user['team'];
 
             if (!empty($openidKey) && $user['password'] != $openidKey)
             {
@@ -128,8 +125,11 @@ class UsersModel extends BaseModel
         {
             $session = \Config\Services::session();
 
-            $session->userId  = $user['id'];
-            $session->isAdmin = $user['is_admin'];
+            $session->userId   = $user['id'];
+            $session->isAdmin  = $user['is_admin'];
+            $session->isIT     = $user['is_it'];
+            $session->isLeader = $user['is_team_lead'];
+            $session->team     = $user['team'];
         }
 
         return $user;
