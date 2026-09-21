@@ -21,7 +21,7 @@ class UsersModel extends BaseModel
     protected $useAutoIncrement = false;
     // protected $returnType         = 'array';
     // protected $useSoftDeletes     = true;
-    protected $allowedFields    = ['username', 'password', 'fullname', 'team', 'is_admin', 'paid_leave_per_year', 'paid_leave_left_this_year', 'paid_leave_left_last_year', 'remember_key', 'email'];
+    protected $allowedFields    = ['username', 'password', 'fullname', 'team', 'is_admin', 'is_it', 'paid_leave_per_year', 'paid_leave_left_this_year', 'paid_leave_left_last_year', 'remember_key', 'email'];
 
     // protected $useTimestamps      = true;
     // protected $createdField       = '';
@@ -62,8 +62,12 @@ class UsersModel extends BaseModel
             }
             $session = \Config\Services::session();
 
-            $session->userId  = $user['id'];
-            $session->isAdmin = $user['is_admin'];
+            $session->userId   = $user['id'];
+            $session->isAdmin  = $user['is_admin'];
+            $session->isIT     = $user['is_it'];
+            $session->isLeader = $user['is_team_lead'];
+            $session->team     = $user['team'];
+            $session->isIT = $user['is_it'];
             $session->isLeader = $user['is_team_lead'];
             $session->team = $user['team'];
 
@@ -84,6 +88,7 @@ class UsersModel extends BaseModel
         $this->setRememberCookie();
         $session->userId  = 0;
         $session->isAdmin = 0;
+        $session->isIT    = 0;
     }
 
     protected function setRememberCookie($rememberKey = '')
@@ -142,12 +147,24 @@ class UsersModel extends BaseModel
         }
 
         $all = $this->asArray()
-                ->select("id, username, fullname, team, paid_leave_per_year, paid_leave_left_this_year, paid_leave_left_last_year, is_team_lead")
+                ->select("id, username, fullname, team, email, is_admin, is_it, paid_leave_per_year, paid_leave_left_this_year, paid_leave_left_last_year, is_team_lead")
                 ->where($where)
                 ->orderBy('username')
                 ->findAll();
 
         return $all;
+    }
+
+    public function usernameExists($username, $excludeId = 0)
+    {
+        $query = $this->asArray()->select('id')->where('username', $username);
+
+        if (!empty($excludeId))
+        {
+            $query->where('id !=', intval($excludeId));
+        }
+
+        return !empty($query->first());
     }
 
     public function encryptPassword($id, $password, &$errMess)
