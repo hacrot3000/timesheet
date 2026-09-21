@@ -131,6 +131,14 @@
                             ><span>D.s. yêu cầu</span></a
                         >
                         {/is_lead_funs}
+                        {can_manage_users}
+                        <a id="menu-staff-settings"
+                           href="{site_url}settings/staff"
+                           class="list-group-item list-group-item-action py-2 ripple"
+                           ><i class="fas fa-clock fa-fw me-3"></i
+                            ><span>Thiết lập chấm công</span></a
+                        >
+                        {/can_manage_users}
                         {is_admin_funs}
                         <a id="menu-listrequest"
                            href="{site_url}request/list"
