@@ -131,14 +131,6 @@
                             ><span>D.s. yêu cầu</span></a
                         >
                         {/is_lead_funs}
-                        {can_manage_users}
-                        <a id="menu-staff-settings"
-                           href="{site_url}settings/staff"
-                           class="list-group-item list-group-item-action py-2 ripple"
-                           ><i class="fas fa-clock fa-fw me-3"></i
-                            ><span>Thiết lập chấm công</span></a
-                        >
-                        {/can_manage_users}
                         {is_admin_funs}
                         <a id="menu-listrequest"
                            href="{site_url}request/list"
@@ -158,13 +150,15 @@
                            ><i class="fas fa-file-arrow-down fa-fw me-3"></i
                             ><span>Tải dữ liệu</span></a
                         >
+                        {/is_admin_funs}
+                        {can_manage_users}
                         <a id="menu-settings"
                            href="{site_url}settings"
                            class="list-group-item list-group-item-action py-2 ripple"
                            ><i class="fas fa-screwdriver-wrench fa-fw me-3"></i
                             ><span>Thiết lập hệ thống</span></a
                         >
-                        {/is_admin_funs}
+                        {/can_manage_users}
                         {is_logged_user}
                         <a id="menu-createibaoviet"
                            href="{site_url}request/createibaoviet"
