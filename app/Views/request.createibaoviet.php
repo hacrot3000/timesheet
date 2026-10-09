@@ -1,4 +1,4 @@
-<form method="post" id="frmCreateRequest" action="{site_url}request/createibaovietsave/{userid}" method="post">
+<form method="post" id="frmCreateRequest" action="{site_url}request/createibaovietsave/{userid}" data-success-url="{site_url}request/index/{userid}">
 
     <div class="card">
         <div class="card-header">
@@ -447,6 +447,8 @@
 
         $("#treatmentInfo").change();
 
+        // Keep this JavaScript block away from CodeIgniter Parser's {if ...} syntax.
+        {noparse}
         var submitMode = 'email';
         $('#btnSubmit').click(function () { submitMode = 'email'; });
         $('#btnDownload').click(function () { submitMode = 'download'; });
@@ -490,6 +492,7 @@
             $.ajax(ajaxOptions)
                 .done(function (data, textStatus, xhr)
                 {
+                    // Prevent Parser confusion between JavaScript braces and conditional tags.
                     if (mode === 'download')
                     {
                         var contentType = xhr.getResponseHeader('Content-Type') || '';
@@ -518,7 +521,7 @@
                     if (data.errors.length === 0)
                     {
                         alert("Yêu cầu đã được tạo thành công.");
-                        document.location = "{site_url}request/index/{user_id}";
+                        document.location = document.getElementById("frmCreateRequest").getAttribute("data-success-url");
                     }
                     else
                     {
@@ -534,6 +537,7 @@
 
             return false;
         });
+        {/noparse}
 
         $("#requestType").change();
 
