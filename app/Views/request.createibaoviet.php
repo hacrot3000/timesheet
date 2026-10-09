@@ -447,7 +447,7 @@
 
         $("#treatmentInfo").change();
 
-        // Keep this JavaScript block away from CodeIgniter Parser's {if ...} syntax.
+        // The enclosed JavaScript must bypass CodeIgniter's template parser.
         {noparse}
         var submitMode = 'email';
         $('#btnSubmit').click(function () { submitMode = 'email'; });
