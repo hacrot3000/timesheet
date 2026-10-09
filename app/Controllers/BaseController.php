@@ -89,15 +89,26 @@ abstract class BaseController extends Controller
         if (empty($this->session->userId))
         {
             
-            $this->session->isAdmin = false;
-            $this->session->isLead = false;
-            $this->session->userId  = 0;
+            $this->session->isAdmin  = false;
+            $this->session->isIT     = false;
+            $this->session->isLeader = false;
+            $this->session->userId   = 0;
 
             $this->assign('is_logged_user', array());
             $this->assign('not_logged_user', array(array()));
         }
         else
         {
+            $currentUser = $this->users->findFirstById($this->session->userId);
+
+            if (!empty($currentUser))
+            {
+                $this->session->isAdmin  = $currentUser['is_admin'];
+                $this->session->isIT     = $currentUser['is_it'];
+                $this->session->isLeader = $currentUser['is_team_lead'];
+                $this->session->team     = $currentUser['team'];
+            }
+
             $this->assign('is_logged_user', array(array()));
             $this->assign('not_logged_user', array());
         }
@@ -109,6 +120,15 @@ abstract class BaseController extends Controller
         else
         {
             $this->assign('is_admin_funs', array());
+        }
+
+        if ($this->session->isAdmin || $this->session->isIT)
+        {
+            $this->assign('can_manage_users', array(array()));
+        }
+        else
+        {
+            $this->assign('can_manage_users', array());
         }
 
         if ($this->session->isLeader)

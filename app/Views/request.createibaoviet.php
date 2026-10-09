@@ -11,7 +11,7 @@
                 </div>
                 <div class="card-body">
                     <div class="alert alert-warning" role="alert">
-                        Email sẽ được gửi cho HR, vui lòng liên hệ với HR để gửi bản cứng và cập nhật tiến độ xử lý.
+                        Bạn có thể gửi yêu cầu qua email cho HR hoặc tải file Excel về máy. Nếu tự gửi hồ sơ, vui lòng liên hệ HR để gửi bản cứng và cập nhật tiến độ xử lý.
                     </div>
                     <div class="mb-3">
                         <label for="inum" name="inum" class="form-label">Thẻ bảo hiểm số <span class="text-danger">(*)</span></label>
@@ -371,6 +371,7 @@
                     <div class="col-md-12 text-center">
                         <button type="button" class="btn btn-warning align-middle btnSteps" data-next="step6" data-novalidate="true">Quay lại</button>
                         <button id="btnSubmit" type="submit" class="btn btn-primary align-middle">Gửi yêu cầu</button>
+                        <button id="btnDownload" type="submit" class="btn btn-success align-middle"><i class="fas fa-download"></i> Tải file Excel</button>
                     </div>
                 </div>
             </div>
@@ -446,51 +447,93 @@
 
         $("#treatmentInfo").change();
 
-        $("#frmCreateRequest").submit(function () {
+        var submitMode = 'email';
+        $('#btnSubmit').click(function () { submitMode = 'email'; });
+        $('#btnDownload').click(function () { submitMode = 'download'; });
 
-            $('#btnSubmit').attr('disabled','disabled');
+        $("#frmCreateRequest").submit(function (event) {
+            var submitter = event.originalEvent && event.originalEvent.submitter;
+            var mode = submitter ? (submitter.id === 'btnDownload' ? 'download' : 'email') : submitMode;
+            submitMode = 'email';
+
+            var buttons = $('#btnSubmit, #btnDownload');
+            buttons.prop('disabled', true);
 
             if (sum == 0)
             {
-                $('#btnSubmit').removeAttr('disabled');
+                buttons.prop('disabled', false);
                 alert("Vui lòng nhập số tiền yêu cầu bồi thường.");
                 return false;
             }
 
             var formData = new FormData(this);
+            formData.append('output', mode);
             var path = $("#frmCreateRequest").attr('action');
 
-            $.ajax({
+            var ajaxOptions = {
                 url: path,
                 method: 'POST',
-                dataType: 'json',
                 processData: false,
                 contentType: false,
                 data: formData
-            })
-                .done(function (data)
+            };
+
+            if (mode === 'download')
+            {
+                ajaxOptions.xhrFields = { responseType: 'blob' };
+            }
+            else
+            {
+                ajaxOptions.dataType = 'json';
+            }
+
+            $.ajax(ajaxOptions)
+                .done(function (data, textStatus, xhr)
                 {
-                    var isError = data.errors.length == 0;
-                    if (isError)
+                    if (mode === 'download')
+                    {
+                        var contentType = xhr.getResponseHeader('Content-Type') || '';
+                        if (contentType.indexOf('application/vnd.openxmlformats-officedocument.spreadsheetml.sheet') === -1)
+                        {
+                            buttons.prop('disabled', false);
+                            alert("Không thể tải file Excel. Vui lòng đăng nhập lại hoặc thử lại sau.");
+                            return;
+                        }
+
+                        var disposition = xhr.getResponseHeader('Content-Disposition') || '';
+                        var filenameMatch = /filename="([^"]+)"/i.exec(disposition);
+                        var filename = filenameMatch ? filenameMatch[1] : 'BVC_GYCBT_KHDN.xlsx';
+                        var blobUrl = URL.createObjectURL(data);
+                        var link = document.createElement('a');
+                        link.href = blobUrl;
+                        link.download = filename;
+                        document.body.appendChild(link);
+                        link.click();
+                        document.body.removeChild(link);
+                        setTimeout(function () { URL.revokeObjectURL(blobUrl); }, 60000);
+                        buttons.prop('disabled', false);
+                        return;
+                    }
+
+                    if (data.errors.length === 0)
                     {
                         alert("Yêu cầu đã được tạo thành công.");
                         document.location = "{site_url}request/index/{user_id}";
                     }
                     else
                     {
-                        $('#btnSubmit').removeAttr('disabled');
+                        buttons.prop('disabled', false);
                         alert(data.errors);
                     }
                 })
-                .fail(function () {
-                    $('#btnSubmit').removeAttr('disabled');
-                    alert("Có lỗi xảy ra khi gửi yêu cầu.");
-                })
-                ;
+                .fail(function ()
+                {
+                    buttons.prop('disabled', false);
+                    alert(mode === 'download' ? "Có lỗi xảy ra khi tải file Excel." : "Có lỗi xảy ra khi gửi yêu cầu.");
+                });
 
             return false;
         });
-
 
         $("#requestType").change();
 

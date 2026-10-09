@@ -1,5 +1,9 @@
-PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+# PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
 
-15,30 8,9,18,19 * * * python3 /var/www/html/app/ThirdParty/get_checkin.py
-30 22 * * * python3 /var/www/html/app/ThirdParty/get_users.py
-0 22 * * * /var/www/html/app/ThirdParty/autobackupmysql
+# 15,30 8,9,18,19 * * * python3 /var/www/html/app/ThirdParty/get_checkin.py
+# 30 22 * * * python3 /var/www/html/app/ThirdParty/get_users.py
+# 0 22 * * * /var/www/html/app/ThirdParty/autobackupmysql
+
+15,30 8,9,18,19 * * * /usr/bin/docker exec -it timesheet-app python3 /var/www/html/app/ThirdParty/get_checkin.py
+30 22 * * * /usr/bin/docker exec -it timesheet-app python3 /var/www/html/app/ThirdParty/get_users.py
+0 22 * * * /usr/bin/docker exec -it timesheet-app /var/www/html/app/ThirdParty/autobackupmysql

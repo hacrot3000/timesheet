@@ -2,8 +2,8 @@
 <html lang="en">
     <head>
         <meta charset="UTF-8">
-        <title>Welcome to 386E Timesheet</title>
-        <meta name="description" content="386E Timesheet">
+        <title>Welcome to 568E Timesheet</title>
+        <meta name="description" content="568E Timesheet">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link rel="shortcut icon" type="image/png" href="/favicon.ico">
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous" />
@@ -150,13 +150,15 @@
                            ><i class="fas fa-file-arrow-down fa-fw me-3"></i
                             ><span>Tải dữ liệu</span></a
                         >
+                        {/is_admin_funs}
+                        {can_manage_users}
                         <a id="menu-settings"
                            href="{site_url}settings"
                            class="list-group-item list-group-item-action py-2 ripple"
                            ><i class="fas fa-screwdriver-wrench fa-fw me-3"></i
                             ><span>Thiết lập hệ thống</span></a
                         >
-                        {/is_admin_funs}
+                        {/can_manage_users}
                         {is_logged_user}
                         <a id="menu-createibaoviet"
                            href="{site_url}request/createibaoviet"

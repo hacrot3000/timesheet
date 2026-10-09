@@ -1,0 +1,7 @@
+#!/bin/bash
+
+
+#/usr/bin/docker exec -it timesheet-app python3 /var/www/html/app/ThirdParty/get_checkin.py
+#/usr/bin/docker exec -it timesheet-app python3 /var/www/html/app/ThirdParty/get_users.py
+/usr/bin/docker exec -it timesheet-app /var/www/html/app/ThirdParty/autobackupmysql
+

@@ -947,6 +947,26 @@ class Request extends BaseController
             $claimModel->update($claim['id'], ['data' => serialize($keep)]);
         }
 
+        // Use the same populated workbook for either email delivery or a direct download.
+        if (($data['output'] ?? 'email') === 'download')
+        {
+            $fileContents = file_get_contents($filepath);
+            @unlink($filepath);
+
+            if ($fileContents === false)
+            {
+                return $this->response->setStatusCode(500)->setJSON([
+                    'errors' => 'Không thể đọc file Excel, vui lòng thử lại.'
+                ]);
+            }
+
+            return $this->response->download(
+                'BVC_GYCBT_KHDN_' . date('Ymd_His') . '.xlsx',
+                $fileContents,
+                true
+            )->setContentType('application/vnd.openxmlformats-officedocument.spreadsheetml.sheet', '');
+        }
+
         $email = "";
         if (!empty($userInfo['email']))
         {

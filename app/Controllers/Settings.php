@@ -13,22 +13,28 @@ use Psr\Log\LoggerInterface;
 
 class Settings extends BaseController
 {
-
     /**
      * Constructor.
      */
     public function initController(RequestInterface $request, ResponseInterface $response, LoggerInterface $logger)
     {
         parent::initController($request, $response, $logger);
+    }
 
-        if (!empty($this->session->isAdmin))
+    private function requireSettingsPermission()
+    {
+        $currentUser = $this->users->findFirstById($this->session->userId);
+
+        if (empty($currentUser) || (empty($currentUser['is_admin']) && empty($currentUser['is_it'])))
         {
-            return redirect()->to("/");
+            throw \CodeIgniter\Exceptions\PageNotFoundException::forPageNotFound();
         }
     }
 
     public function index()
     {
+        $this->requireSettingsPermission();
+
         $settings = $this->settings->findByCanChange(1);
 
         foreach ($settings as &$s)
@@ -57,6 +63,8 @@ class Settings extends BaseController
 
     public function update()
     {
+        $this->requireSettingsPermission();
+
         $settings    = $this->settings->findByCanChange(1);
         $newSettings = $this->request->getPost();
 
@@ -73,6 +81,8 @@ class Settings extends BaseController
 
     public function testmail($receiver)
     {
+        $this->requireSettingsPermission();
+
         $content = $this->render("modules/email_test", false, false);
 
         $sendResult = $this->settings->email("Email thử nghiệm", $content, $receiver, false);
