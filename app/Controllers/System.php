@@ -24,6 +24,11 @@ class System extends Controller
         date_default_timezone_set('Asia/Ho_Chi_Minh');
     }
 
+    public function checkMissing()
+    {
+
+    }
+
     //php /opt/timesheet/public/index.php system index
     public function index()
     {
@@ -37,26 +42,26 @@ class System extends Controller
         $this->settings->getStartAndEndDateForMonth($currentMonth, $currentYear, $startDateData, $endDateData, $currentMonth, $currentYear, false);
 
         $this->settings->start_month_date = 16;
-        
+
         $Datetime = new \DateTime();
         //$Datetime->setTime(0, 0, 0);
         $Datetime->setDate($currentYear, $currentMonth, $this->settings->start_month_date);
         $Datetime->modify('-1 day');
-        
+
         $checkDate = $Datetime->format('Y-m-d');
-        
+
         if ($checkDate <= $this->settings->calculated_month_report)
         {
             return "Already did";
         }
-        
+
         $currentDate = date("Y-m-d");
-        
+
         if ($currentDate < $checkDate)
         {
             return "Too early";
         }
-        
+
         if (intval($Datetime->format('H') < 23))
         {
             return "Going to be created";

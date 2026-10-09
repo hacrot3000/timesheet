@@ -229,5 +229,5 @@
             <div class="container pt-4">
 
                 <div id="isMissingCheckin" class="alert alert-warning hidden" role="alert">
-                    Hệ thống chưa thấy lượt check-in của bạn trên máy chấm công, <a href="{site_url}users/checklogin/2">bấm vào đây để thực hiện check-in</a>.
+                    Hệ thống chưa thấy lượt check-in của bạn trên máy chấm công, <a href="{site_url}users/checklogin/2">bấm vào đây để gửi báo cáo quên check-in</a>.
                 </div>

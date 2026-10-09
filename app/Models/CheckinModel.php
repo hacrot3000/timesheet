@@ -61,6 +61,22 @@ class CheckinModel extends BaseModel
         return $all;
     }
 
+    public function isMisingInToDay()
+    {
+        $c = $this
+            ->select('time')
+            ->where('date', date('Y-m-d'))
+            ->where('user_id', $user_id)
+            ->first();
+
+        if (empty($c)) {
+            return false;
+        }
+
+        $t = intval(substr($c['time'], 0, 2));
+        return $t < $compareMoment;
+    }
+
     public function isCheckedInToDay($user_id, $compareMoment)
     {
         $c = $this
@@ -69,12 +85,12 @@ class CheckinModel extends BaseModel
                 ->where('user_id', $user_id)
                 ->first()
                 ;
-        
+
         if (empty($c))
         {
             return false;
         }
-        
+
         $t = intval(substr($c['time'], 0, 2));
         return $t < $compareMoment;
     }

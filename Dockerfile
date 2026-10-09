@@ -17,7 +17,7 @@ RUN apt-get update \
     && apt-get install -y libzip-dev vim nano libicu-dev libonig-dev python3 pip python3-dev default-libmysqlclient-dev build-essential pkg-config systemctl default-mysql-client \
     && docker-php-ext-install zip mysqli \
     && docker-php-ext-install mbstring \
-    && docker-php-ext-enable mysqli zip \
+    && docker-php-ext-enable mysqli zip pdo_mysql \
     && docker-php-ext-configure intl \
     && docker-php-ext-install intl \
     && a2enmod rewrite && a2enmod ssl
